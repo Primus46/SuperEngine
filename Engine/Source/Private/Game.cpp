@@ -96,7 +96,7 @@ void Game::Start()
 	AnimParams.EndFrame = 9;
 	AnimParams.FrameRate = 12.0f;
 	m_Anim->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-Green-10f.png", AnimParams);
-	m_Anim->SetScale(5.0f, 5.0f);
+	m_Anim->SetScale(6.0f, 6.0f);
 	m_Anim->SetPosition(500.0f, 250.0f);
 
 	AnimParams.FrameCount = 4;
