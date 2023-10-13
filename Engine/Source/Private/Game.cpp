@@ -87,48 +87,6 @@ void Game::Start()
 		if (Sprite2 != nullptr) {
 			Sprite2->SetPosition(120.0f, 300.0f);
 		}
-	TSharedPtr<SETexture> Sprite3 = m_Window->CreateTexture("EngineContent/Images/Letters/L.png");
-
-		if (Sprite3 != nullptr) {
-			Sprite3->SetPosition(220.0f, 300.0f);
-		}
-
-	TSharedPtr<SETexture> Sprite4 = m_Window->CreateTexture("EngineContent/Images/Letters/LRed.png");
-
-		if (Sprite4 != nullptr) {
-			Sprite4->SetPosition(320.0f, 300.0f);
-		}
-	TSharedPtr<SETexture> Sprite5 = m_Window->CreateTexture("EngineContent/Images/Letters/OBlue.png");
-
-		if (Sprite5 != nullptr) {
-			Sprite5->SetPosition(420.0f, 300.0f);
-		}
-
-	TSharedPtr<SETexture> Sprite6 = m_Window->CreateTexture("EngineContent/Images/Letters/W.png");
-
-		if (Sprite6 != nullptr) {
-			Sprite6->SetPosition(600.0f, 300.0f);
-	}TSharedPtr<SETexture> Sprite7 = m_Window->CreateTexture("EngineContent/Images/Letters/ORed.png");
-
-		if (Sprite7 != nullptr) {
-			Sprite7->SetPosition(720.0f, 300.0f);
-		}
-
-	TSharedPtr<SETexture> Sprite8 = m_Window->CreateTexture("EngineContent/Images/Letters/RRed.png");
-
-		if (Sprite8 != nullptr) {
-			Sprite8->SetPosition(820.0f, 300.0f);
-		}
-	TSharedPtr<SETexture> Sprite9 = m_Window->CreateTexture("EngineContent/Images/Letters/L.png");
-
-		if (Sprite9 != nullptr) {
-			Sprite9->SetPosition(920.0f, 300.0f);
-		}
-	TSharedPtr<SETexture> Sprite10 = m_Window->CreateTexture("EngineContent/Images/Letters/DRed.png");
-
-		if (Sprite10 != nullptr) {
-			Sprite10->SetPosition(1020.0f, 300.0f);
-		}
 
 	m_Anim = new SEAnimation();
 	m_Anim2 = new SEAnimation();
