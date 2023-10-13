@@ -43,4 +43,9 @@ private:
 	// Dedug Variables
 	SEAnimation* m_Anim;
 	SEAnimation* m_Anim2;
+	SEAnimation* m_Anim3;
+	SEAnimation* m_Anim4;
+	SEAnimation* m_Anim5;
+	SEAnimation* m_Anim6;
+	SEAnimation* m_Anim7;
 };

@@ -90,21 +90,61 @@ void Game::Start()
 
 	m_Anim = new SEAnimation();
 	m_Anim2 = new SEAnimation();
+	m_Anim3 = new SEAnimation();
+	m_Anim4 = new SEAnimation();
+	m_Anim5 = new SEAnimation();
+	m_Anim6 = new SEAnimation();
+	m_Anim7 = new SEAnimation();
 
 	SEAnimParams AnimParams;
 	AnimParams.FrameCount = 10;
 	AnimParams.EndFrame = 9;
-	AnimParams.FrameRate = 12.0f;
+	AnimParams.FrameRate = 18.0f;
 	m_Anim->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-Green-10f.png", AnimParams);
-	m_Anim->SetScale(1.0f, 1.0f);
-	m_Anim->SetPosition(70.0f, 50.0f);
+	m_Anim->SetScale(4.0f, 4.0f);
+	m_Anim->SetPosition(150.0f, 50.0f);
 
 	AnimParams.FrameCount = 4;
 	AnimParams.EndFrame = 3;
 
 	m_Anim2->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-cannon-4f.png", AnimParams);
-	m_Anim2->SetScale(1.0f, 1.0f);
+	m_Anim2->SetScale(4.0f, 4.0f);
 	m_Anim2->SetPosition(50.0f, 50.0f);
+
+	AnimParams.FrameCount = 10;
+	AnimParams.EndFrame = 9;
+
+	m_Anim3->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_AttackComboNoMovement-10f.png", AnimParams);
+	m_Anim3->SetScale(4.0f, 4.0f);
+	m_Anim3->SetPosition(300.0f, 300.0f);
+
+	AnimParams.FrameCount = 10;
+	AnimParams.EndFrame = 9;
+
+	m_Anim4->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_Run-10f.png", AnimParams);
+	m_Anim4->SetScale(4.0f, 4.0f);
+	m_Anim4->SetPosition(300.0f, 50.0f);
+
+	AnimParams.FrameCount = 7;
+	AnimParams.EndFrame = 6;
+
+	m_Anim5->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_WallClimb-7f.png", AnimParams);
+	m_Anim5->SetScale(4.0f, 4.0f);
+	m_Anim5->SetPosition(750.0f, 50.0f);
+
+	AnimParams.FrameCount = 12;
+	AnimParams.EndFrame = 11;
+
+	m_Anim6->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_Roll-12f.png", AnimParams);
+	m_Anim6->SetScale(4.0f, 4.0f);
+	m_Anim6->SetPosition(750.0f, 300.0f);
+
+	AnimParams.FrameCount = 10;
+	AnimParams.EndFrame = 9;
+
+	m_Anim7->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_Death-10f.png", AnimParams);
+	m_Anim7->SetScale(4.0f, 4.0f);
+	m_Anim7->SetPosition(20.0f, 300.0f);
 }
 
 void Game::ProcessInput()
@@ -160,6 +200,12 @@ void Game::Update()
 
 	m_Anim->Update(GetDeltaTimeF());
 	m_Anim2->Update(GetDeltaTimeF());
+	m_Anim3->Update(GetDeltaTimeF());
+	m_Anim4->Update(GetDeltaTimeF());
+	m_Anim5->Update(GetDeltaTimeF());
+	m_Anim6->Update(GetDeltaTimeF());
+	m_Anim7->Update(GetDeltaTimeF());
+
 }
 
 void Game::Render()
