@@ -78,14 +78,56 @@ void Game::Start()
 
 	TSharedPtr<SETexture> Sprite1 = m_Window->CreateTexture("EngineContent/Images/Letters/HRed.png");
 
-	if (Sprite1 != nullptr) {
-		Sprite1->SetPosition(150.0f, 300.0f);
-	}
+		if (Sprite1 != nullptr) {
+			Sprite1->SetPosition(0.0f, 300.0f);
+		}
 	
 	TSharedPtr<SETexture> Sprite2 = m_Window->CreateTexture("EngineContent/Images/Letters/EBlue.png");
 
 		if (Sprite2 != nullptr) {
-			Sprite2->SetPosition(350.0f, 300.0f);
+			Sprite2->SetPosition(120.0f, 300.0f);
+		}
+	TSharedPtr<SETexture> Sprite3 = m_Window->CreateTexture("EngineContent/Images/Letters/L.png");
+
+		if (Sprite3 != nullptr) {
+			Sprite3->SetPosition(220.0f, 300.0f);
+		}
+
+	TSharedPtr<SETexture> Sprite4 = m_Window->CreateTexture("EngineContent/Images/Letters/LRed.png");
+
+		if (Sprite4 != nullptr) {
+			Sprite4->SetPosition(320.0f, 300.0f);
+		}
+	TSharedPtr<SETexture> Sprite5 = m_Window->CreateTexture("EngineContent/Images/Letters/OBlue.png");
+
+		if (Sprite5 != nullptr) {
+			Sprite5->SetPosition(420.0f, 300.0f);
+		}
+
+	TSharedPtr<SETexture> Sprite6 = m_Window->CreateTexture("EngineContent/Images/Letters/W.png");
+
+		if (Sprite6 != nullptr) {
+			Sprite6->SetPosition(600.0f, 300.0f);
+	}TSharedPtr<SETexture> Sprite7 = m_Window->CreateTexture("EngineContent/Images/Letters/ORed.png");
+
+		if (Sprite7 != nullptr) {
+			Sprite7->SetPosition(720.0f, 300.0f);
+		}
+
+	TSharedPtr<SETexture> Sprite8 = m_Window->CreateTexture("EngineContent/Images/Letters/RRed.png");
+
+		if (Sprite8 != nullptr) {
+			Sprite8->SetPosition(820.0f, 300.0f);
+		}
+	TSharedPtr<SETexture> Sprite9 = m_Window->CreateTexture("EngineContent/Images/Letters/L.png");
+
+		if (Sprite9 != nullptr) {
+			Sprite9->SetPosition(920.0f, 300.0f);
+		}
+	TSharedPtr<SETexture> Sprite10 = m_Window->CreateTexture("EngineContent/Images/Letters/DRed.png");
+
+		if (Sprite10 != nullptr) {
+			Sprite10->SetPosition(1020.0f, 300.0f);
 		}
 
 	m_Anim = new SEAnimation();
@@ -96,15 +138,15 @@ void Game::Start()
 	AnimParams.EndFrame = 9;
 	AnimParams.FrameRate = 12.0f;
 	m_Anim->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-Green-10f.png", AnimParams);
-	m_Anim->SetScale(5.0f, 5.0f);
-	m_Anim->SetPosition(500.0f, 250.0f);
+	m_Anim->SetScale(1.0f, 1.0f);
+	m_Anim->SetPosition(70.0f, 50.0f);
 
 	AnimParams.FrameCount = 4;
 	AnimParams.EndFrame = 3;
 
 	m_Anim2->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-cannon-4f.png", AnimParams);
-	m_Anim->SetScale(5.0f, 5.0f);
-	m_Anim->SetPosition(250.0f, 250.0f);
+	m_Anim2->SetScale(1.0f, 1.0f);
+	m_Anim2->SetPosition(50.0f, 50.0f);
 }
 
 void Game::ProcessInput()
