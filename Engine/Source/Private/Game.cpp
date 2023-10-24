@@ -3,6 +3,8 @@
 #include "Window/Window.h"
 #include "SEInput.h"
 #include "Math/SEVector2.h"
+#include "GameObjects/SEGameObjects.h"
+
 //DEBUG INCLUDES -----
 #include "Graphics/SETexture.h"
 #include "Graphics/SEAnimation.h"
@@ -145,6 +147,9 @@ void Game::Start()
 	m_Anim7->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_Death-10f.png", AnimParams);
 	m_Anim7->SetScale(4.0f, 4.0f);
 	m_Anim7->SetPosition(20.0f, 300.0f);
+
+	m_GameObject = new SEGameObjects("TestObject", m_Window);
+	m_GameObject->BeginPlay();
 }
 
 void Game::ProcessInput()

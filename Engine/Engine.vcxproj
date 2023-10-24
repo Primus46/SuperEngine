@@ -101,6 +101,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source\Private\Game.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Components\SEComponent.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Components\SETransformComponents.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\SEGameObjects.cpp" />
     <ClCompile Include="Source\Private\Graphics\SEAnimation.cpp" />
     <ClCompile Include="Source\Private\Graphics\SEAnimStateMachine.cpp" />
     <ClCompile Include="Source\Private\Graphics\SETexture.cpp" />
@@ -112,6 +115,9 @@
   <ItemGroup>
     <ClInclude Include="Source\PreCompiled\CoreMinimal.h" />
     <ClInclude Include="Source\Public\Game.h" />
+    <ClInclude Include="Source\Public\GameObjects\Components\SEComponent.h" />
+    <ClInclude Include="Source\Public\GameObjects\Components\SETransformComponents.h" />
+    <ClInclude Include="Source\Public\GameObjects\SEGameObjects.h" />
     <ClInclude Include="Source\Public\Graphics\SEAnimation.h" />
     <ClInclude Include="Source\Public\Graphics\SEAnimStateMachine.h" />
     <ClInclude Include="Source\Public\Graphics\SETexture.h" />
