@@ -5,9 +5,11 @@
 #include "Math/SEVector2.h"
 #include "GameObjects/SEGameObjects.h"
 
+
 //DEBUG INCLUDES -----
 #include "Graphics/SETexture.h"
 #include "Graphics/SEAnimation.h"
+#include "Graphics/SEAnimStateMachine.h"
 Game* Game::GetGameInstance()
 {
 	static Game* GameInstance = new Game();
@@ -49,8 +51,7 @@ Game::Game()
 	m_GameInput = nullptr;
 
 	//debug
-	m_Anim = nullptr;
-	m_Anim2 = nullptr;
+	m_ASM = nullptr;
 }
 
 Game::~Game()
@@ -90,63 +91,23 @@ void Game::Start()
 			Sprite2->SetPosition(120.0f, 300.0f);
 		}
 
-	m_Anim = new SEAnimation();
-	m_Anim2 = new SEAnimation();
-	m_Anim3 = new SEAnimation();
-	m_Anim4 = new SEAnimation();
-	m_Anim5 = new SEAnimation();
-	m_Anim6 = new SEAnimation();
-	m_Anim7 = new SEAnimation();
+	m_ASM = new SEAnimStateMachine();
 
 	SEAnimParams AnimParams;
 	AnimParams.FrameCount = 10;
 	AnimParams.EndFrame = 9;
 	AnimParams.FrameRate = 18.0f;
-	m_Anim->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-Green-10f.png", AnimParams);
-	m_Anim->SetScale(4.0f, 4.0f);
-	m_Anim->SetPosition(150.0f, 50.0f);
+	m_ASM->AddAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-Green-10f.png", AnimParams);
 
 	AnimParams.FrameCount = 4;
 	AnimParams.EndFrame = 3;
 
-	m_Anim2->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-cannon-4f.png", AnimParams);
-	m_Anim2->SetScale(4.0f, 4.0f);
-	m_Anim2->SetPosition(50.0f, 50.0f);
+	m_ASM->AddAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-cannon-4f.png", AnimParams);
+	
+	m_ASM->SetPosition(100.0f, 100.0f);
+	m_ASM->SetScale(5.0f, 5.0f);
 
-	AnimParams.FrameCount = 10;
-	AnimParams.EndFrame = 9;
-
-	m_Anim3->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_AttackComboNoMovement-10f.png", AnimParams);
-	m_Anim3->SetScale(4.0f, 4.0f);
-	m_Anim3->SetPosition(300.0f, 300.0f);
-
-	AnimParams.FrameCount = 10;
-	AnimParams.EndFrame = 9;
-
-	m_Anim4->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_Run-10f.png", AnimParams);
-	m_Anim4->SetScale(4.0f, 4.0f);
-	m_Anim4->SetPosition(300.0f, 50.0f);
-
-	AnimParams.FrameCount = 7;
-	AnimParams.EndFrame = 6;
-
-	m_Anim5->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_WallClimb-7f.png", AnimParams);
-	m_Anim5->SetScale(4.0f, 4.0f);
-	m_Anim5->SetPosition(750.0f, 50.0f);
-
-	AnimParams.FrameCount = 12;
-	AnimParams.EndFrame = 11;
-
-	m_Anim6->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_Roll-12f.png", AnimParams);
-	m_Anim6->SetScale(4.0f, 4.0f);
-	m_Anim6->SetPosition(750.0f, 300.0f);
-
-	AnimParams.FrameCount = 10;
-	AnimParams.EndFrame = 9;
-
-	m_Anim7->InportAnimation(m_Window, "EngineContent/Images/SpriteSheets/Knight/_Death-10f.png", AnimParams);
-	m_Anim7->SetScale(4.0f, 4.0f);
-	m_Anim7->SetPosition(20.0f, 300.0f);
+	m_ASM->Start();
 
 	m_GameObject = new SEGameObjects("TestObject", m_Window);
 	m_GameObject->BeginPlay();
@@ -172,15 +133,20 @@ void Game::Update()
 
 	LastTickTime = CurrentTickTime;
 
+	// on escape pressed end game
 	if (m_GameInput->IsKeyDown(SDL_SCANCODE_ESCAPE)) {
 		EndGame();
 	}
 
+	// refreshing the input each frame in case it changes
 	SEVector2 MovementInput;
+	// setting a static position on the first frame
 	static SEVector2 Position = SEVector2(50.0f);
-	float speed = 500.0f * GetDeltaTimeF();
-
-		/*if (m_GameInput->IsKeyDown(SDL_SCANCODE_D)) {
+	// setting a speed so we can move based on time using delta time
+	float Speed = 500.0f * GetDeltaTimeF();
+	
+	// move the input vector based on the keyboard input
+		if (m_GameInput->IsKeyDown(SDL_SCANCODE_D)) {
 			MovementInput = SEVector2(1.0f, 0.0f);
 		}
 		if (m_GameInput->IsKeyDown(SDL_SCANCODE_A)) {
@@ -192,25 +158,24 @@ void Game::Update()
 		if (m_GameInput->IsKeyDown(SDL_SCANCODE_S)) {
 			MovementInput = SEVector2(0.0f, 1.0f);
 		}
-		if(m_GameInput->IsMouseButttonDown(MB_LEFT)){
-			m_ASH->SetIndex(1);
+
+		// changes the animation based on mouse input
+		if(m_GameInput->IsMouseButtonDown(MB_LEFT)){
+			m_ASM->SetIndex(1);
 		}
 		else{
-			m_ASH->SetIndex(0);
+			m_ASM->SetIndex(0);
 		}
 
-		MovementInput.LogLength();
-		Position += MovementInput * 5.0f;
-		m_ASM->SetPosition(Position.X, Position.Y);*/
+		// normalising the input so we don't go faster when holding 2 inputs
+		MovementInput.Normalise();
+		// adjusting our position based on speed
+		Position += MovementInput * Speed;
+		// setting the anim state machines position
+		m_ASM->SetPosition(Position.x, Position.y);
 
-	m_Anim->Update(GetDeltaTimeF());
-	m_Anim2->Update(GetDeltaTimeF());
-	m_Anim3->Update(GetDeltaTimeF());
-	m_Anim4->Update(GetDeltaTimeF());
-	m_Anim5->Update(GetDeltaTimeF());
-	m_Anim6->Update(GetDeltaTimeF());
-	m_Anim7->Update(GetDeltaTimeF());
-
+		// updates the timing in the anim state machine
+	m_ASM->Update(GetDeltaTimeF());
 }
 
 void Game::Render()

@@ -31,7 +31,7 @@ struct SEVector2 {
 	void Log();
 	//quick debug tool
 	void LogLength();
-
+	// length is the power of the vector
 	float Length();
 	//normalises the vector
 	SEVector2& Normalise();
@@ -39,7 +39,7 @@ struct SEVector2 {
 	SEVector2 Normal();
 	// get the distance between 2 vectors
 	static float Distance(SEVector2& v1, SEVector2& v2);
-	//returns sero vector
+	//returns zero vector
 	static SEVector2 Zero();
 
 	float x, y;

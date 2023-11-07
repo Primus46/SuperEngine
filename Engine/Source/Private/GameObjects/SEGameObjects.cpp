@@ -1,6 +1,6 @@
 #include "CoreMinimal.h"
 #include "GameObjects/SEGameObjects.h"
-#include "GameObjects/Components/SEComponents.h"
+#include "GameObjects/Components/SEComponent.h"
 
 SEGameObjects::SEGameObjects(SEString DefaultName, Window* AssignedWindow)
 	: m_Name(DefaultName), m_Window(AssignedWindow)

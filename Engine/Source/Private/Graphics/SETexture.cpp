@@ -9,6 +9,7 @@ SETexture::SETexture()
 	m_Texture = nullptr;
 	m_Width = m_Height = 0;
 	m_ScalarW = m_ScalarH = 1.0f;
+	m_Visibility = true;
 }
 
 SETexture::~SETexture()
@@ -51,6 +52,10 @@ bool SETexture::InportTexture(SDL_Renderer* Renderer, SEString PathToFile)
 
 void SETexture::Render(SDL_Renderer* Renderer)
 {
+	if (!m_Visibility) {
+		return;
+	}
+
 	SDL_FRect ScaledScreenRect = m_ScreenRect;
 	ScaledScreenRect.w *= m_ScalarW;
 	ScaledScreenRect.h *= m_ScalarH;

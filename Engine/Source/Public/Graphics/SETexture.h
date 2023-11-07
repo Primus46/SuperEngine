@@ -23,6 +23,10 @@ public:
 
 	void SetClip(int X, int Y, int W, int H);
 
+	inline void SetVisibility(bool IsVisibile) { m_Visibility = IsVisibile; }
+	
+	inline bool GetVisibility() const { return m_Visibility; }
+
 private:
 	SDL_FRect m_ScreenRect;
 
@@ -35,4 +39,6 @@ private:
 	SEUint m_Width, m_Height;
 
 	float m_ScalarW, m_ScalarH;
+
+	bool m_Visibility;
 };

@@ -2,8 +2,9 @@
 
 class Window;
 class SEInput;
+
 //DEBUG
-class SEAnimation;
+class SEAnimStateMachine;
 class SEGameObjects;
 
 class Game {
@@ -42,14 +43,7 @@ private:
 	SEInput* m_GameInput;
 
 	// Dedug Variables - week 3
-	SEAnimation* m_Anim;
-	SEAnimation* m_Anim2;
-	SEAnimation* m_Anim3;
-	SEAnimation* m_Anim4;
-	SEAnimation* m_Anim5;
-	SEAnimation* m_Anim6;
-	SEAnimation* m_Anim7;
-
+	SEAnimStateMachine* m_ASM;
 	// Dedug Variables - week 5
 	SEGameObjects* m_GameObject;
 };

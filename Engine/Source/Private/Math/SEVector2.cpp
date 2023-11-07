@@ -146,17 +146,16 @@ SEVector2& SEVector2::operator/=(float Scalar)
 
 void SEVector2::Log()
 {
-
+	SELog("x: " + std::to_string(x) + ", y: " + std::to_string(y));
 }
-
 void SEVector2::LogLength()
 {
-
+	SELog(std::to_string(Length()));
 }
 
 float SEVector2::Length()
 {
-	return sqrtf((x*x) + (y * y));
+	return sqrtf((x * x) + (y * y));
 }
 
 SEVector2& SEVector2::Normalise()

@@ -16,6 +16,8 @@ public:
 
 	void SetScale(int W, int H);
 
+	void SetVisibility(bool IsVisible);
+
 private:
 	void ClipAnimation();
 private:

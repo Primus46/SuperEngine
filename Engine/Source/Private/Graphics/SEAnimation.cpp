@@ -48,6 +48,10 @@ void SEAnimation::Update(float DeltaTime)
 	if (m_SpriteSheet == nullptr) {
 		return;
 	}
+	if (!m_SpriteSheet->GetVisibility()) {
+		return;
+	}
+
 
 	FrameTimer += DeltaTime;
 
@@ -74,6 +78,11 @@ void SEAnimation::SetPosition(int X, int Y)
 void SEAnimation::SetScale(int W, int H)
 {
 	m_SpriteSheet->SetScale(W, H);
+}
+
+void SEAnimation::SetVisibility(bool IsVisible)
+{
+	m_SpriteSheet->SetVisibility(IsVisible);
 }
 
 void SEAnimation::ClipAnimation()

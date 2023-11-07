@@ -10,26 +10,29 @@ SEInput::SEInput()
 SEInput::~SEInput()
 {
 	m_KeyboardState = nullptr;
-
 }
 
 void SEInput::ProcessInput()
 {
+	// store the inputs pressed in this frame
 	SDL_Event Event;
 
+	// find the inputs pressed in the frame and update the Event variable
+	// think of this as a event listener
 	while (SDL_PollEvent(&Event)) {
+		// listen out for different event types
 		switch (Event.type) {
-		case SDL_MOUSEBUTTONDOWN:
+		case SDL_MOUSEBUTTONDOWN: // detect if a mouse button is pressed
 			OnMouseButtonChanged(Event.button, true);
 			break;
-		case SDL_MOUSEBUTTONUP:
+		case SDL_MOUSEBUTTONUP: // detect if a mouse button is released
 			OnMouseButtonChanged(Event.button, false);
 			break;
-		case SDL_KEYDOWN:
+		case SDL_KEYDOWN: // detect if a key is pressed down or released
 		case SDL_KEYUP:
 			m_KeyboardState = SDL_GetKeyboardState(NULL);
 			break;
-		case SDL_QUIT:
+		case SDL_QUIT: // when the cross button is clicked
 			Game::GetGameInstance()->EndGame();
 			break;
 		}
@@ -63,5 +66,4 @@ void SEInput::OnMouseButtonChanged(SDL_MouseButtonEvent Event, bool IsPressed)
 		m_MouseStates[MB_MIDDLE] = IsPressed;
 		break;
 	}
-
 }
