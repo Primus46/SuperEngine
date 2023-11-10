@@ -3,13 +3,11 @@
 #include "Window/Window.h"
 #include "SEInput.h"
 #include "Math/SEVector2.h"
-#include "GameObjects/SEGameObjects.h"
+#include "GameObjects/SEGameObject.h"
 
+// DEBUG HEADER
+#include "GameObjects/SETestObject.h"
 
-//DEBUG INCLUDES -----
-#include "Graphics/SETexture.h"
-#include "Graphics/SEAnimation.h"
-#include "Graphics/SEAnimStateMachine.h"
 Game* Game::GetGameInstance()
 {
 	static Game* GameInstance = new Game();
@@ -50,8 +48,6 @@ Game::Game()
 	m_DeltaTime = 0.0;
 	m_GameInput = nullptr;
 
-	//debug
-	m_ASM = nullptr;
 }
 
 Game::~Game()
@@ -79,38 +75,16 @@ void Game::Start()
 	}
 	m_GameInput = new SEInput();
 
-	TSharedPtr<SETexture> Sprite1 = m_Window->CreateTexture("EngineContent/Images/Letters/HRed.png");
+	AddGameObject<SETestObject>("ObjectName");
 
-		if (Sprite1 != nullptr) {
-			Sprite1->SetPosition(0.0f, 300.0f);
-		}
-	
-	TSharedPtr<SETexture> Sprite2 = m_Window->CreateTexture("EngineContent/Images/Letters/EBlue.png");
-
-		if (Sprite2 != nullptr) {
-			Sprite2->SetPosition(120.0f, 300.0f);
+	// loop through all game objects in the game and run their begin play
+	for (auto GameObject : m_GameObjectStack) {
+		if (GameObject == nullptr) {
+			continue;
 		}
 
-	m_ASM = new SEAnimStateMachine();
-
-	SEAnimParams AnimParams;
-	AnimParams.FrameCount = 10;
-	AnimParams.EndFrame = 9;
-	AnimParams.FrameRate = 18.0f;
-	m_ASM->AddAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-Green-10f.png", AnimParams);
-
-	AnimParams.FrameCount = 4;
-	AnimParams.EndFrame = 3;
-
-	m_ASM->AddAnimation(m_Window, "EngineContent/Images/SpriteSheets/MainShip/Projectile-cannon-4f.png", AnimParams);
-	
-	m_ASM->SetPosition(100.0f, 100.0f);
-	m_ASM->SetScale(5.0f, 5.0f);
-
-	m_ASM->Start();
-
-	m_GameObject = new SEGameObjects("TestObject", m_Window);
-	m_GameObject->BeginPlay();
+		GameObject->BeginPlay();
+	}
 }
 
 void Game::ProcessInput()
@@ -121,6 +95,15 @@ void Game::ProcessInput()
 		return;
 	}
 	m_GameInput->ProcessInput();
+
+	// loop through all game objects in the game and run their process input
+	for (auto GameObject : m_GameObjectStack) {
+		if (GameObject == nullptr) {
+			continue;
+		}
+
+		GameObject->ProcessInput(m_GameInput);
+	}
 }
 
 void Game::Update()
@@ -138,44 +121,14 @@ void Game::Update()
 		EndGame();
 	}
 
-	// refreshing the input each frame in case it changes
-	SEVector2 MovementInput;
-	// setting a static position on the first frame
-	static SEVector2 Position = SEVector2(50.0f);
-	// setting a speed so we can move based on time using delta time
-	float Speed = 500.0f * GetDeltaTimeF();
-	
-	// move the input vector based on the keyboard input
-		if (m_GameInput->IsKeyDown(SDL_SCANCODE_D)) {
-			MovementInput = SEVector2(1.0f, 0.0f);
-		}
-		if (m_GameInput->IsKeyDown(SDL_SCANCODE_A)) {
-			MovementInput = SEVector2(-1.0f, 0.0f);
-		}
-		if (m_GameInput->IsKeyDown(SDL_SCANCODE_W)) {
-			MovementInput = SEVector2(0.0f, -1.0f);
-		}
-		if (m_GameInput->IsKeyDown(SDL_SCANCODE_S)) {
-			MovementInput = SEVector2(0.0f, 1.0f);
+	// loop through all game objects in the game and run their begin update
+	for (auto GameObject : m_GameObjectStack) {
+		if (GameObject == nullptr) {
+			continue;
 		}
 
-		// changes the animation based on mouse input
-		if(m_GameInput->IsMouseButtonDown(MB_LEFT)){
-			m_ASM->SetIndex(1);
-		}
-		else{
-			m_ASM->SetIndex(0);
-		}
-
-		// normalising the input so we don't go faster when holding 2 inputs
-		MovementInput.Normalise();
-		// adjusting our position based on speed
-		Position += MovementInput * Speed;
-		// setting the anim state machines position
-		m_ASM->SetPosition(Position.x, Position.y);
-
-		// updates the timing in the anim state machine
-	m_ASM->Update(GetDeltaTimeF());
+		GameObject->Update(GetDeltaTimeF());
+	}
 }
 
 void Game::Render()
@@ -185,6 +138,15 @@ void Game::Render()
 
 void Game::CleanupGame()
 {
+	// loop through all game objects in the game and run their destroy
+	for (auto GameObject : m_GameObjectStack) {
+		if (GameObject == nullptr) {
+			continue;
+		}
+
+		GameObject->Destroy();
+	}
+
 	delete m_GameInput;
 
 	if (m_Window != nullptr) {

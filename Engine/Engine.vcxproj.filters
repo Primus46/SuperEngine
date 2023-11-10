@@ -39,16 +39,19 @@
     <ClCompile Include="Source\Private\Math\SEVector2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\GameObjects\SEGameObjects.cpp">
+    <ClCompile Include="Source\Private\GameObjects\SEGameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Private\GameObjects\Components\SEComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\GameObjects\Components\SETransformComponents.cpp">
+    <ClCompile Include="Source\Private\GameObjects\Components\SETransformComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Private\GameObjects\SECharacter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Private\GameObjects\SETestObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,16 +80,19 @@
     <ClInclude Include="Source\Public\Math\SEVector2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\GameObjects\SEGameObjects.h">
+    <ClInclude Include="Source\Public\GameObjects\SEGameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\GameObjects\Components\SEComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\GameObjects\Components\SETransformComponents.h">
+    <ClInclude Include="Source\Public\GameObjects\Components\SETransformComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\GameObjects\SECharacter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Public\GameObjects\SETestObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,7 +5,7 @@ class SEInput;
 
 //DEBUG
 class SEAnimStateMachine;
-class SEGameObjects;
+class SEGameObject;
 
 class Game {
 public:
@@ -17,6 +17,21 @@ public:
 	inline void EndGame() { m_IsRunning = false; }
 
 	inline float GetDeltaTimeF() const { return static_cast<float>(m_DeltaTime); }
+
+	// add a game object to the game
+	template<class G, typename std::enable_if<std::is_base_of<SEGameObject, G>::value>::type* = nullptr>
+	inline TSharedPtr<G> AddGameObject(SEString ObjectName) {
+		TSharedPtr<G> NewGameObject = TMakeShared<G>(ObjectName, m_Window);
+
+		if (NewGameObject == nullptr) {
+			SELog("GameObject failed to create: " + ObjectName);
+			return nullptr;
+		}
+
+		m_GameObjectStack.push_back(NewGameObject);
+
+		return NewGameObject;
+	}
 
 private:
 	Game();
@@ -34,16 +49,16 @@ private:
 	void CleanupGame();
 
 private:
+	// game flag loop
 	bool m_IsRunning;
-
+	// store the window
 	Window* m_Window;
-	
+	// time between each tick/frame
 	double m_DeltaTime;
-
+	// store the game input
 	SEInput* m_GameInput;
 
-	// Dedug Variables - week 3
-	SEAnimStateMachine* m_ASM;
-	// Dedug Variables - week 5
-	SEGameObjects* m_GameObject;
+	// hold all the game objects in the game
+	TSharedArray<SEGameObject> m_GameObjectStack;
+
 };

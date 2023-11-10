@@ -1,14 +1,14 @@
 #include "CoreMinimal.h"
-#include "GameObjects/SEGameObjects.h"
+#include "GameObjects/SEGameObject.h"
 #include "GameObjects/Components/SEComponent.h"
 
-SEGameObjects::SEGameObjects(SEString DefaultName, Window* AssignedWindow)
+SEGameObject::SEGameObject(SEString DefaultName, Window* AssignedWindow)
 	: m_Name(DefaultName), m_Window(AssignedWindow)
 {
-	AddComponents<SEComponents>();
+	m_Transform = AddComponent<SETransformComponent>();
 }
 
-void SEGameObjects::BeginPlay()
+void SEGameObject::BeginPlay()
 {
 	for (auto Component : m_Components) {
 		if (Component == nullptr) {
@@ -19,7 +19,7 @@ void SEGameObjects::BeginPlay()
 	}
 }
 
-void SEGameObjects::ProcessInput(SEInput* GameInput)
+void SEGameObject::ProcessInput(SEInput* GameInput)
 {
 	for (auto Component : m_Components) {
 		if (Component == nullptr) {
@@ -30,7 +30,7 @@ void SEGameObjects::ProcessInput(SEInput* GameInput)
 	}
 }
 
-void SEGameObjects::Update(float DeltaTime)
+void SEGameObject::Update(float DeltaTime)
 {
 	for (auto Component : m_Components) {
 		if (Component == nullptr) {
@@ -39,9 +39,11 @@ void SEGameObjects::Update(float DeltaTime)
 
 		Component->Update(DeltaTime);
 	}
+
+	 
 }
 
-void SEGameObjects::Destroy()
+void SEGameObject::Destroy()
 {
 	OnDestroy();
 
@@ -55,4 +57,19 @@ void SEGameObjects::Destroy()
 
 	m_Components.clear();
 
+}
+
+void SEGameObject::SetPosition(SEVector2 Position)
+{
+	m_Transform->Position = Position;
+}
+
+void SEGameObject::SetScale(SEVector2 Scale)
+{
+	m_Transform->Scale = Scale;
+}
+
+void SEGameObject::SetRotation(SEVector2 Rotation)
+{
+	m_Transform->Rotation = Rotation;
 }

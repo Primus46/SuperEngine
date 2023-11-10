@@ -5,7 +5,7 @@
 class SETransformComponent : public SEComponent {
 public:
 	SETransformComponent(SEGameObject* Owner) 
-		: Position(SEVector2(0.0f), Scale(SEVector2(1.0f), Rotation(SEVector2(0.0f), SEComponent(Owner) {}
+		: Position(SEVector2(0.0f)), Scale(SEVector2(1.0f)), Rotation(SEVector2(0.0f)), SEComponent(Owner) {}
 
 	SEVector2 Position;
 	SEVector2 Scale;

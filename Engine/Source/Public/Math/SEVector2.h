@@ -1,5 +1,5 @@
 #pragma once
-
+ 
 struct SEVector2 {
 	SEVector2();
 	SEVector2(float z);

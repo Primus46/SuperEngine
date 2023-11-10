@@ -5,7 +5,7 @@ class SEInput;
 
 class SEComponent {
 public:
-	SEComponent(SEGameObject* Owner): m_Owner(Owner){}
+	SEComponent(SEGameObject* Owner) : m_Owner(Owner) {}
 	~SEComponent() = default;
 
 	// Run when component first spawns
@@ -29,4 +29,4 @@ protected:
 private:
 	//the gameObject owners of the component
 	SEGameObject* m_Owner;
-}
+};

@@ -1,7 +1,7 @@
 #pragma once
-#include "GameObjects/SEGameObjects.h"
+#include "GameObjects/SEGameObject.h"
 
-class SECharacter : public SEGameObjects{
+class SECharacter : public SEGameObject{
 public:
 	SECharacter();
 	~SECharacter();
