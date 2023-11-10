@@ -60,6 +60,11 @@ void SEAnimStateMachine::SetScale(float W, float H)
 
 void SEAnimStateMachine::SetIndex(SEUint Index)
 {
+	if (m_Animations.size() <= Index) {
+		SELog("no animation/sprite exists at that index.");
+		return;
+	}
+
 	m_Animations[m_AnimIndex]->SetVisibility(false);
 	m_AnimIndex = Index;
 	m_Animations[m_AnimIndex]->SetVisibility(true);

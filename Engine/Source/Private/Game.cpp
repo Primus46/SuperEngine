@@ -6,7 +6,7 @@
 #include "GameObjects/SEGameObject.h"
 
 // DEBUG HEADER
-#include "GameObjects/SETestObject.h"
+#include "GameObjects/Characters/SEPlayer.h"
 
 Game* Game::GetGameInstance()
 {
@@ -75,7 +75,7 @@ void Game::Start()
 	}
 	m_GameInput = new SEInput();
 
-	AddGameObject<SETestObject>("ObjectName");
+	AddGameObject<SEPlayer>();
 
 	// loop through all game objects in the game and run their begin play
 	for (auto GameObject : m_GameObjectStack) {

@@ -33,6 +33,8 @@ public:
 	// get the transform component
 	TSharedPtr<SETransformComponent> GetTransform() const { return m_Transform; }
 
+	Window* GetWindow() const { return m_Window; }
+
 protected:
 	// Runs when the object is destroyed and before the components are destroyed
 	virtual void OnDestroy() {}
@@ -50,8 +52,6 @@ protected:
 
 		return NewComponent;
 	}
-
-	Window* GetWindow() const { return m_Window; }
 
 private:
 	//Objects Unique Identifier

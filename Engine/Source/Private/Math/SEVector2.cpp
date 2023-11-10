@@ -170,7 +170,7 @@ SEVector2& SEVector2::Normalise()
 
 SEVector2 SEVector2::Normal()
 {
-	SEVector2 Result;
+	SEVector2 Result = *this;
 
 	if (Length() != 0.0f) {
 		Result /= Length();

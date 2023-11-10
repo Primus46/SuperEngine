@@ -100,12 +100,14 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\GameObjects\Characters\SEPlayer.cpp" />
     <ClCompile Include="Source\Private\Game.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Components\SEComponent.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Components\SEMovementComponent.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Components\SESpriteComponent.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Components\SETransformComponent.cpp" />
-    <ClCompile Include="Source\Private\GameObjects\SECharacter.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Characters\SECharacter.cpp" />
     <ClCompile Include="Source\Private\GameObjects\SEGameObject.cpp" />
-    <ClCompile Include="Source\Private\GameObjects\SETestObject.cpp" />
     <ClCompile Include="Source\Private\Graphics\SEAnimation.cpp" />
     <ClCompile Include="Source\Private\Graphics\SEAnimStateMachine.cpp" />
     <ClCompile Include="Source\Private\Graphics\SETexture.cpp" />
@@ -115,13 +117,15 @@
     <ClCompile Include="Source\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Public\GameObjects\Characters\SEPlayer.h" />
     <ClInclude Include="Source\PreCompiled\CoreMinimal.h" />
     <ClInclude Include="Source\Public\Game.h" />
     <ClInclude Include="Source\Public\GameObjects\Components\SEComponent.h" />
+    <ClInclude Include="Source\Public\GameObjects\Components\SEMovementComponent.h" />
+    <ClInclude Include="Source\Public\GameObjects\Components\SESpriteComponent.h" />
     <ClInclude Include="Source\Public\GameObjects\Components\SETransformComponent.h" />
-    <ClInclude Include="Source\Public\GameObjects\SECharacter.h" />
+    <ClInclude Include="Source\Public\GameObjects\Characters\SECharacter.h" />
     <ClInclude Include="Source\Public\GameObjects\SEGameObject.h" />
-    <ClInclude Include="Source\Public\GameObjects\SETestObject.h" />
     <ClInclude Include="Source\Public\Graphics\SEAnimation.h" />
     <ClInclude Include="Source\Public\Graphics\SEAnimStateMachine.h" />
     <ClInclude Include="Source\Public\Graphics\SETexture.h" />

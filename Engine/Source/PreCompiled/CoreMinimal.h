@@ -48,3 +48,19 @@ struct SEAnimParams {
 	float FrameRate;
 
 };
+
+struct SESpriteParams {
+	SESpriteParams() {
+		Frame = 0;
+		FrameCount = 0;
+		FrameWidth = 0;
+		FrameHeight = 0;
+		RowCount = 1;
+		Row = 0;
+	}
+
+	SEUint Frame;
+	SEUint FrameCount;
+	SEUint FrameWidth, FrameHeight;
+	SEUint RowCount, Row;
+};

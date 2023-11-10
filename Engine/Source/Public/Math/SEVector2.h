@@ -5,6 +5,10 @@ struct SEVector2 {
 	SEVector2(float z);
 	SEVector2(float x, float y);
 
+	SEVector2 operator-() {
+		return SEVector2(-x, -y);
+	}
+
 	bool operator==(SEVector2 Other);
 	bool operator!=(SEVector2 Other);
 
