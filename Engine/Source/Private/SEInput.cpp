@@ -1,6 +1,11 @@
 #include "CoreMinimal.h"
 #include "SEInput.h"
+
 #include "Game.h"
+#include "Window/Window.h"
+#include "Window/SEWindowMenu.h"
+#include "SDL2/SDL_syswm.h"
+#include "../../resource.h"
 
 SEInput::SEInput()
 {
@@ -35,6 +40,9 @@ void SEInput::ProcessInput()
 		case SDL_QUIT: // when the cross button is clicked
 			Game::GetGameInstance()->EndGame();
 			break;
+		case SDL_SYSWMEVENT:
+			HandleWMEvents(Event);
+			break;
 		}
 	}
 }
@@ -64,6 +72,34 @@ void SEInput::OnMouseButtonChanged(SDL_MouseButtonEvent Event, bool IsPressed)
 		break;
 	case SDL_BUTTON_MIDDLE:
 		m_MouseStates[MB_MIDDLE] = IsPressed;
+		break;
+	}
+}
+
+void SEInput::HandleWMEvents(SDL_Event Event)
+{
+	SEString Title;
+	SEString Message;
+
+	switch (Event.syswm.msg->msg.win.wParam)
+	{
+	case ID_FILE_RESTARTGAME:
+		Game::GetGameInstance()->GetWindow()->GetWindowsMenu()->RestartGame();
+		break;
+	case ID_FILE_EXITAPPLICATION:
+		Game::GetGameInstance()->GetWindow()->GetWindowsMenu()->ExitApp();
+		break;
+	case ID_GAMECONTROLS:
+		Title = SEString("Game Controls");
+		Message = SEString("A: Move Left\nD: Move Right\nW: Move Forward\nS: Move Backward\n\nMore Controls Coming Soon.");
+		Game::GetGameInstance()->GetWindow()->GetWindowsMenu()->ActivatePopup(Title, Message);
+		break;
+	case ID_HELP_ABOUTSUPERENGINE:
+		Title = SEString("About Super Engine");
+		Message = SEString("Super Engine is an SDL2-based C++ 2D game engine created by Connor Downey in 2023");
+		Game::GetGameInstance()->GetWindow()->GetWindowsMenu()->ActivatePopup(Title, Message);
+		break;
+	default:
 		break;
 	}
 }

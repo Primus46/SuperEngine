@@ -14,13 +14,13 @@ public:
 
 	void Run();
 
-	inline void EndGame() { m_IsRunning = false; }
+	/*inline*/ void EndGame() { m_IsRunning = false; }
 
-	inline float GetDeltaTimeF() const { return static_cast<float>(m_DeltaTime); }
+	/*inline*/ float GetDeltaTimeF() const { return static_cast<float>(m_DeltaTime); }
 
 	// add a game object to the game
 	template<class G, typename std::enable_if<std::is_base_of<SEGameObject, G>::value>::type* = nullptr>
-	inline TSharedPtr<G> AddGameObject(SEString ObjectName) {
+	inline TSharedPtr<G> AddGameObject(SEString ObjectName = "DefaultName") {
 		TSharedPtr<G> NewGameObject = TMakeShared<G>(ObjectName, m_Window);
 
 		if (NewGameObject == nullptr) {
@@ -32,6 +32,13 @@ public:
 
 		return NewGameObject;
 	}
+
+
+	// GEt the main Window
+	Window* GetWindow() const { return m_Window; }
+
+	//Restart the game back to the main menu
+	void RestartGame();
 
 private:
 	Game();

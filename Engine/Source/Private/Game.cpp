@@ -40,6 +40,15 @@ void Game::Run()
 	CleanupGame();
 }
 
+void Game::RestartGame()
+{
+	/*
+	m_GameScore = 0;
+	//Create a new state and this will automatically run the beginplay
+	m_GameStateMachine->SetNewState<SEMainMenuState>();
+	*/
+}
+
 Game::Game()
 {
 	std::cout << "Create Game." << std::endl;
@@ -85,6 +94,14 @@ void Game::Start()
 
 		GameObject->BeginPlay();
 	}
+
+	/*
+	* Replace
+	//Create a new state and this will automatically run the beginplay
+	m_GameStateMachine->SetNewState<SEMainMenuState>();
+	*With
+	* RestartGame();
+	*/
 }
 
 void Game::ProcessInput()

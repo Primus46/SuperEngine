@@ -2,7 +2,7 @@
 #include "GameObjects/Components/SEComponent.h"
 #include "Math/SEVector2.h"
 
-class SETransformationComponent;
+class SETransformComponent;
 
 class SEMovementComponent : public SEComponent{
 public:
@@ -13,12 +13,12 @@ public:
 	void AddForce(SEVector2 Direction, float Force);
 
 protected:
-	TSharedPtr<SETransformationComponent> GetTransform();
+	TSharedPtr<SETransformComponent> GetTransform();
 
 public:
 
 	float m_Mass;
-
+ 
 	float m_Drag;
 
 	float m_MaxVelocity;

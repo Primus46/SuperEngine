@@ -100,8 +100,15 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\Window\SEWindowMenu.cpp" />
+    <ClCompile Include="Source\Private\GameStates\SEGameStateMachine.cpp" />
+    <ClCompile Include="Source\Private\GameStates\SEPlayState.cpp" />
+    <ClCompile Include="Source\Private\GameStates\SEGameState.cpp" />
+    <ClCompile Include="Source\Private\Collisions\SECollisionEngine.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Characters\Enemy.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Characters\SEPlayer.cpp" />
     <ClCompile Include="Source\Private\Game.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Components\SECollisionComponent.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Components\SEComponent.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Components\SEMovementComponent.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Components\SESpriteComponent.cpp" />
@@ -117,9 +124,19 @@
     <ClCompile Include="Source\Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Source\Public\Window\SEWindowMenu.h" />
+    <ClInclude Include="Source\Public\GameStates\SEGameStateMachine.h" />
+    <ClInclude Include="Source\Public\GameStates\SEPlayState.h" />
+    <ClInclude Include="Source\Public\GameStates\SEGameState.h" />
+    <ClInclude Include="Source\Public\Collisions\SEBounds.h" />
+    <ClInclude Include="Source\Public\Collisions\SECollision.h" />
+    <ClInclude Include="Source\Public\Collisions\SECollisionEngine.h" />
+    <ClInclude Include="Source\Public\GameObjects\Characters\Enemy.h" />
     <ClInclude Include="Source\Public\GameObjects\Characters\SEPlayer.h" />
     <ClInclude Include="Source\PreCompiled\CoreMinimal.h" />
     <ClInclude Include="Source\Public\Game.h" />
+    <ClInclude Include="Source\Public\GameObjects\Components\SECollisionComponent.h" />
     <ClInclude Include="Source\Public\GameObjects\Components\SEComponent.h" />
     <ClInclude Include="Source\Public\GameObjects\Components\SEMovementComponent.h" />
     <ClInclude Include="Source\Public\GameObjects\Components\SESpriteComponent.h" />
@@ -132,6 +149,9 @@
     <ClInclude Include="Source\Public\Math\SEVector2.h" />
     <ClInclude Include="Source\Public\SEInput.h" />
     <ClInclude Include="Source\Public\Window\Window.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WindowMenu.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -26,6 +26,9 @@ private:
 	// listen for mouse button changing
 	void OnMouseButtonChanged(SDL_MouseButtonEvent Event, bool IsPressed);
 
+	// Listen and hanlde any Win32 menu events
+	void HandleWMEvents(SDL_Event Event);
+
 private:
 	// store the state of each button on the keeyboard
 	const SEUint8* m_KeyboardState;

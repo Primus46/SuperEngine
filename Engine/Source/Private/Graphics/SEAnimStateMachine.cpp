@@ -40,8 +40,12 @@ void SEAnimStateMachine::Start(SEUint StartingIndex)
 
 void SEAnimStateMachine::Update(float deltaTime)
 {
+	if (m_Animations.size() <= m_AnimIndex) {
+		return;
+	}
+
 	m_Animations[m_AnimIndex]->SetPosition(m_PosX, m_PosY);
-	m_Animations[m_AnimIndex]->SetPosition(m_ScaleW, m_ScaleH);
+	m_Animations[m_AnimIndex]->SetScale(m_ScaleW, m_ScaleH);
 
 	m_Animations[m_AnimIndex]->Update(deltaTime);
 }

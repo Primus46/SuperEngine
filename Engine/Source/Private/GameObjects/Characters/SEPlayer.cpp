@@ -5,7 +5,7 @@
 #include "SEInput.h"
 
 SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
-	: SEPlayer(DefaultName, AssignedWindow)
+	: SECharacter(DefaultName, AssignedWindow)
 {
 	m_PlayerSpeed = 1000.0f;
 	GetMovementComponent()->m_MaxVelocity = 5.0f;
@@ -17,6 +17,7 @@ SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
 void SEPlayer::Update(float DeltaTime)
 {
 	SECharacter::Update(DeltaTime);
+	m_MovementDir.Log();
 
 	GetMovementComponent()->AddForce(m_MovementDir, m_PlayerSpeed);
 }

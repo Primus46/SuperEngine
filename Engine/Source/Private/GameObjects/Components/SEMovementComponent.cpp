@@ -2,6 +2,7 @@
 #include "GameObjects/Components/SEMovementComponent.h"
 
 #include "GameObjects/SEGameObject.h"
+#include "GameObjects/Components/SETransformComponent.h"
 
 #define GRAVITY 9.81f
 
@@ -15,7 +16,7 @@ SEMovementComponent::SEMovementComponent(SEGameObject* Owner)
 
 void SEMovementComponent::Update(float DeltaTime)
 {
-	if (GetTransform == nullptr) {
+	if (GetTransform() == nullptr) {
 		return;
 	}
 
@@ -38,6 +39,8 @@ void SEMovementComponent::Update(float DeltaTime)
 	GetTransform()->Position += m_Velocity;
 
 	m_Accelaration = SEVector2::Zero();
+
+	SELog("test");
 }
 
 void SEMovementComponent::AddForce(SEVector2 Direction, float Force)
@@ -49,7 +52,7 @@ void SEMovementComponent::AddForce(SEVector2 Direction, float Force)
 	m_Accelaration += Accelaration;
 }
 
-TSharedPtr<SETransformationComponent> SEMovementComponent::GetTransform()
+TSharedPtr<SETransformComponent> SEMovementComponent::GetTransform()
 {
 	return GetOwner()->GetTransform();
 }
