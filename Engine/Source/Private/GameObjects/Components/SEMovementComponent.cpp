@@ -39,17 +39,15 @@ void SEMovementComponent::Update(float DeltaTime)
 	GetTransform()->Position += m_Velocity;
 
 	m_Accelaration = SEVector2::Zero();
-
-	SELog("test");
 }
 
 void SEMovementComponent::AddForce(SEVector2 Direction, float Force)
 {
-	SEVector2 Accelaration = Direction.Normal() * Force;
+	SEVector2 Acceleration = Direction.Normal() * Force;
 
-	Accelaration /= std::max(m_Mass, 0.01f);
+	Acceleration /= std::max(m_Mass, 0.01f);
 
-	m_Accelaration += Accelaration;
+	m_Accelaration += Acceleration;
 }
 
 TSharedPtr<SETransformComponent> SEMovementComponent::GetTransform()

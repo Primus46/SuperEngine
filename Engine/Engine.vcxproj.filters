@@ -63,7 +63,7 @@
     <ClCompile Include="Source\Private\GameObjects\Components\SECollisionComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Private\GameObjects\Characters\Enemy.cpp">
+    <ClCompile Include="Source\Private\GameObjects\Characters\SEEnemy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\Private\Collisions\SECollisionEngine.cpp">
@@ -131,7 +131,7 @@
     <ClInclude Include="Source\Public\GameObjects\Components\SECollisionComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Public\GameObjects\Characters\Enemy.h">
+    <ClInclude Include="Source\Public\GameObjects\Characters\SEEnemy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Public\Collisions\SEBounds.h">

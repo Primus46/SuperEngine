@@ -10,6 +10,7 @@ SETexture::SETexture()
 	m_Width = m_Height = 0;
 	m_ScalarW = m_ScalarH = 1.0f;
 	m_Visibility = true;
+	m_Rotation = 0.0;
 }
 
 SETexture::~SETexture()
@@ -65,7 +66,7 @@ void SETexture::Render(SDL_Renderer* Renderer)
 		m_Texture,
 		m_ClipRect,
 		&ScaledScreenRect,
-		0.0,
+		m_Rotation,
 		nullptr,
 		SDL_FLIP_NONE
 		);

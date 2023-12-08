@@ -20,8 +20,8 @@ public:
 
 	// add a game object to the game
 	template<class G, typename std::enable_if<std::is_base_of<SEGameObject, G>::value>::type* = nullptr>
-	inline TSharedPtr<G> AddGameObject(SEString ObjectName = "DefaultName") {
-		TSharedPtr<G> NewGameObject = TMakeShared<G>(ObjectName, m_Window);
+	inline G* AddGameObject(SEString ObjectName = "DefaultName") {
+		G* NewGameObject = new G(ObjectName, m_Window);
 
 		if (NewGameObject == nullptr) {
 			SELog("GameObject failed to create: " + ObjectName);
@@ -33,6 +33,9 @@ public:
 		return NewGameObject;
 	}
 
+	// remove the game object from teh game objects stack
+	// make sure to remove all references of the gameobject in other areas
+	void RemoveGameObject(SEGameObject* GameObject);
 
 	// GEt the main Window
 	Window* GetWindow() const { return m_Window; }
@@ -66,6 +69,8 @@ private:
 	SEInput* m_GameInput;
 
 	// hold all the game objects in the game
-	TSharedArray<SEGameObject> m_GameObjectStack;
+	TArray<SEGameObject*> m_GameObjectStack;
 
+	// DEBUG VAR
+	SEGameObject* m_Player;
 };

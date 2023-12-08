@@ -43,9 +43,8 @@ void SEAnimStateMachine::Update(float deltaTime)
 	if (m_Animations.size() <= m_AnimIndex) {
 		return;
 	}
-
-	m_Animations[m_AnimIndex]->SetPosition(m_PosX, m_PosY);
-	m_Animations[m_AnimIndex]->SetScale(m_ScaleW, m_ScaleH);
+	
+	UpdateAnimTransforms();
 
 	m_Animations[m_AnimIndex]->Update(deltaTime);
 }
@@ -62,15 +61,31 @@ void SEAnimStateMachine::SetScale(float W, float H)
 	m_ScaleH = H;
 }
 
+void SEAnimStateMachine::SetRotation(float NewRot)
+{
+	m_Rotation = NewRot;
+}
+
 void SEAnimStateMachine::SetIndex(SEUint Index)
 {
 	if (m_Animations.size() <= Index) {
 		SELog("no animation/sprite exists at that index.");
 		return;
 	}
-
+	// hide current animation
 	m_Animations[m_AnimIndex]->SetVisibility(false);
+	// change the anim index to play a diffferent animation
 	m_AnimIndex = Index;
+	// update the transform of that animation to make sure it's in the correct position
+	UpdateAnimTransforms();
+	// show the animation on the screen
 	m_Animations[m_AnimIndex]->SetVisibility(true);
 
+}
+
+void SEAnimStateMachine::UpdateAnimTransforms()
+{
+	m_Animations[m_AnimIndex]->SetPosition(m_PosX, m_PosY);
+	m_Animations[m_AnimIndex]->SetScale(m_ScaleW, m_ScaleH);
+	m_Animations[m_AnimIndex]->SetRotation(m_Rotation);
 }

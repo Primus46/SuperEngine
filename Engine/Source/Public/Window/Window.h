@@ -11,18 +11,23 @@ public:
 
 	// Creates Window
 	bool CreateWindow(SEString Title, int Width, int Height, SDL_Color Colour = { 30, 30, 30, 255 });
-
+	// render the memory that the window holds
 	void Render();
-
+	// deallocate the memory that the window holds
 	void Destroy();
-
+	// create a texture and add it to the texture stack for rendering
 	TSharedPtr<SETexture> CreateTexture(SEString PathToFile);
 
+	// get the width of the window
+	int GetWidth() const { return m_Width; }
+	// get the height of the window
+	int GetHeight() const { return m_Height; }
 
 	// get the win32 menu attached to this window
 	SEWindowMenu* GetWindowsMenu() const { return m_WindowMenu; }
 
 protected:
+	// render custom graphics for the game engine
 	virtual void RenderCustomerGraphics();
 
 private:

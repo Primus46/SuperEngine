@@ -9,7 +9,7 @@ public:
 	SECharacter(SEString DefaultName, Window* AssignedWindow);
 	/*
 	void BeginPlay() override;
-
+	
 	void Update(float DeltaTime) override;
 	*/
 	TSharedPtr<SESpriteComponent> GetSpriteComponent() const { return m_SpriteComponent; }

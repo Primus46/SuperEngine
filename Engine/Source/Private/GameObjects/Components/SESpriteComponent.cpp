@@ -7,12 +7,12 @@
 SESpriteComponent::SESpriteComponent(SEGameObject* Owner)
 	: SEComponent(Owner)
 {
-	m_ASH = new SEAnimStateMachine();
+	m_ASM = new SEAnimStateMachine();
 }
 
 bool SESpriteComponent::AddAnimation(SEString PathToFile, SEAnimParams AnimParams)
 {
-	return m_ASH->AddAnimation(GetOwner()->GetWindow(), PathToFile, AnimParams);
+	return m_ASM->AddAnimation(GetOwner()->GetWindow(), PathToFile, AnimParams);
 }
 
 bool SESpriteComponent::AddSingleSprite(SEString PathToFile, SESpriteParams SpriteParams)
@@ -27,43 +27,49 @@ bool SESpriteComponent::AddSingleSprite(SEString PathToFile, SESpriteParams Spri
 	AnimParams.RowCount = SpriteParams.RowCount;
 	AnimParams.FrameRate = 0.0f;
 	
-	return m_ASH->AddAnimation(GetOwner()->GetWindow(), PathToFile, AnimParams);
+	return m_ASM->AddAnimation(GetOwner()->GetWindow(), PathToFile, AnimParams);
  }
 
 void SESpriteComponent::SetSpriteIndex(SEUint Index)
 {
-	m_ASH->SetIndex(Index);
+	m_ASM->SetIndex(Index);
 }
 
 void SESpriteComponent::BeginPlay()
 {
 	FollowGameObject();
 
-	m_ASH->Start();
+	m_ASM->Start();
 }
 
 void SESpriteComponent::Update(float DeltaTime)
 {
 	FollowGameObject();
 
-	m_ASH->Update(DeltaTime);
+	m_ASM->Update(DeltaTime);
 }
 
 void SESpriteComponent::OnDestroy()
 {
-	if (m_ASH != nullptr) {
-		delete m_ASH;
+	if (m_ASM != nullptr) {
+		delete m_ASM;
 	}
 }
 
 void SESpriteComponent::FollowGameObject()
 {
-	m_ASH->SetPosition(
+	// set the position of the anim state machine to the owner object
+	m_ASM->SetPosition(
 		GetOwner()->GetTransform()->Position.x,
 		GetOwner()->GetTransform()->Position.y
 	);
-	m_ASH->SetScale(
+
+	// set the Scale of the anim state machine to the owner object
+	m_ASM->SetScale(
 		GetOwner()->GetTransform()->Scale.x,
 		GetOwner()->GetTransform()->Scale.y
 	);
+
+	// set the Rotation of the anim state machine to the owner object
+	m_ASM->SetRotation(GetOwner()->GetTransform()->Rotation);
 }

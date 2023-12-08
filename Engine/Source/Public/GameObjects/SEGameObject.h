@@ -29,11 +29,15 @@ public:
 	// Sets the Scale of the entire game object
 	void SetScale(SEVector2 Scale);
 	// Set the Rotation of the entire game object
-	void SetRotation(SEVector2 Rotation);
+	void SetRotation(float Rotation);
 	// get the transform component
 	TSharedPtr<SETransformComponent> GetTransform() const { return m_Transform; }
 
+	// get the window the gameobject is assigned to
 	Window* GetWindow() const { return m_Window; }
+
+	// if destroyed wait for garbage collection
+	bool IsPendingDestroy() const { return m_ShouldDestroy; }
 
 protected:
 	// Runs when the object is destroyed and before the components are destroyed
@@ -65,4 +69,7 @@ private:
 
 	// holds the transform information for the game object
 	TSharedPtr<SETransformComponent> m_Transform;
+
+	// flag that the game object should be destroyed
+	bool m_ShouldDestroy;
 };

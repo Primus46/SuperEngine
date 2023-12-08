@@ -7,6 +7,7 @@
 
 // DEBUG HEADER
 #include "GameObjects/Characters/SEPlayer.h"
+#include "GameObjects/Characters/SEEnemy.h"
 
 Game* Game::GetGameInstance()
 {
@@ -38,6 +39,26 @@ void Game::Run()
 	}
 
 	CleanupGame();
+}
+
+void Game::RemoveGameObject(SEGameObject* GameObject)
+{
+	auto it = std::find(m_GameObjectStack.begin(),
+		m_GameObjectStack.end(), 
+		GameObject
+	);
+
+	// if it == end() then that means reached the empty item vector array and that means there is no item
+	if (it == m_GameObjectStack.end()) {
+		return;
+	}
+
+	// delete the game objects from memory
+	delete *it;
+	
+
+	// erase removes items from the array
+	m_GameObjectStack.erase(it);
 }
 
 void Game::RestartGame()
@@ -84,7 +105,19 @@ void Game::Start()
 	}
 	m_GameInput = new SEInput();
 
-	AddGameObject<SEPlayer>();
+	// DEBUG add test game object
+	SEEnemy* Enemy = AddGameObject<SEEnemy>();
+	m_Player = AddGameObject<SEPlayer>();
+
+	
+	Enemy->SetPosition({ 
+		static_cast<float>(Enemy->GetWindow()->GetWidth() * 0.5f) - 64.0f *2.0f, // set Enemy x position to middle of screen
+		-64.0f * 2.0f
+		});
+	m_Player->SetPosition({
+		(static_cast<float>(m_Player->GetWindow()->GetWidth()) *0.5f) - (48.0f * 2.0f), // set Player x position to middle of screen
+		static_cast<float>(m_Player->GetWindow()->GetHeight()) - (58.0f * 2.0f) // set Player y position to middle of screen
+		});
 
 	// loop through all game objects in the game and run their begin play
 	for (auto GameObject : m_GameObjectStack) {
@@ -146,6 +179,16 @@ void Game::Update()
 
 		GameObject->Update(GetDeltaTimeF());
 	}
+
+	/*
+	static float GameTimer = 0.0f;
+	GameTimer += GetDeltaTimeF();
+
+	if (GameTimer > 5.0f && m_Player != nullptr) {
+		m_Player->Destroy();
+		m_Player = nullptr;
+	}
+	*/
 }
 
 void Game::Render()

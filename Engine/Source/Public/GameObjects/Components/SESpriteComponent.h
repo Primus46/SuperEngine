@@ -9,7 +9,7 @@ public:
 
 	bool AddAnimation(SEString PathToFile, SEAnimParams AnimParams);
 
-	bool AddSingleSprite(SEString PathToFile, SESpriteParams SpriteParams);
+	bool AddSingleSprite(SEString PathToFile, SESpriteParams SpriteParams = SESpriteParams());
 
 	void SetSpriteIndex(SEUint Index);
 
@@ -25,5 +25,5 @@ private:
 
 private:
 	// animation state machine for the sprite component
-	SEAnimStateMachine* m_ASH;
+	SEAnimStateMachine* m_ASM;
 };

@@ -11,8 +11,17 @@ public:
     void ProcessInput(SEInput* GameInput) override;
 
 private:
+    // limit the players movement on the x-axis to stop the player off the screen
+    void LimitPlayerX();
+
+private:
+    // The direction that we move based on player input
     SEVector2 m_MovementDir;
 
-    float m_PlayerSpeed;
+    // players accelartion
+    float m_PlayerAcceleration;
+
+    // store the Mainship sprite component
+    TSharedPtr<SESpriteComponent> m_MainshipSprite;
 };
 

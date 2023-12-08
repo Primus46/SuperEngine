@@ -1,6 +1,7 @@
 #include "CoreMinimal.h"
 #include "GameObjects/SEGameObject.h"
 #include "GameObjects/Components/SEComponent.h"
+#include "Game.h"
 
 SEGameObject::SEGameObject(SEString DefaultName, Window* AssignedWindow)
 	: m_Name(DefaultName), m_Window(AssignedWindow)
@@ -57,6 +58,10 @@ void SEGameObject::Destroy()
 
 	m_Components.clear();
 
+	// let's the game know this game object wants to be removed
+	m_ShouldDestroy = true;
+
+	Game::GetGameInstance()->RemoveGameObject(this);
 }
 
 void SEGameObject::SetPosition(SEVector2 Position)
@@ -69,7 +74,7 @@ void SEGameObject::SetScale(SEVector2 Scale)
 	m_Transform->Scale = Scale;
 }
 
-void SEGameObject::SetRotation(SEVector2 Rotation)
+void SEGameObject::SetRotation(float Rotation)
 {
 	m_Transform->Rotation = Rotation;
 }

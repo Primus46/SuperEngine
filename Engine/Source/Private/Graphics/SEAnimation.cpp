@@ -65,7 +65,7 @@ void SEAnimation::Update(float DeltaTime)
 	if (CurrentFrame > m_AnimParams.EndFrame) {
 		CurrentFrame = m_AnimParams.StartFrame;
 	}
-
+	// set the clip for the texture to make sure we are on the correct frame
 	ClipAnimation();
 	
 }
@@ -80,6 +80,11 @@ void SEAnimation::SetScale(int W, int H)
 	m_SpriteSheet->SetScale(W, H);
 }
 
+void SEAnimation::SetRotation(float NewRot)
+{
+	m_SpriteSheet->SetRotation(static_cast<double>(NewRot));
+}
+
 void SEAnimation::SetVisibility(bool IsVisible)
 {
 	m_SpriteSheet->SetVisibility(IsVisible);
@@ -87,6 +92,7 @@ void SEAnimation::SetVisibility(bool IsVisible)
 
 void SEAnimation::ClipAnimation()
 {
+	// set the clip for the texture to make sure we are on the correct frame
 	m_SpriteSheet->SetClip(
 		m_AnimParams.FrameWidth * CurrentFrame,
 		m_AnimParams.FrameHeight * m_AnimParams.Row,

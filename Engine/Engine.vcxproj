@@ -105,7 +105,7 @@
     <ClCompile Include="Source\Private\GameStates\SEPlayState.cpp" />
     <ClCompile Include="Source\Private\GameStates\SEGameState.cpp" />
     <ClCompile Include="Source\Private\Collisions\SECollisionEngine.cpp" />
-    <ClCompile Include="Source\Private\GameObjects\Characters\Enemy.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Characters\SEEnemy.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Characters\SEPlayer.cpp" />
     <ClCompile Include="Source\Private\Game.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Components\SECollisionComponent.cpp" />
@@ -132,7 +132,7 @@
     <ClInclude Include="Source\Public\Collisions\SEBounds.h" />
     <ClInclude Include="Source\Public\Collisions\SECollision.h" />
     <ClInclude Include="Source\Public\Collisions\SECollisionEngine.h" />
-    <ClInclude Include="Source\Public\GameObjects\Characters\Enemy.h" />
+    <ClInclude Include="Source\Public\GameObjects\Characters\SEEnemy.h" />
     <ClInclude Include="Source\Public\GameObjects\Characters\SEPlayer.h" />
     <ClInclude Include="Source\PreCompiled\CoreMinimal.h" />
     <ClInclude Include="Source\Public\Game.h" />
