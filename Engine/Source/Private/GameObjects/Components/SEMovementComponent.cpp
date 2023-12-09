@@ -30,13 +30,13 @@ void SEMovementComponent::Update(float DeltaTime)
 		m_Velocity = 0.0f;
 	}
 	
-	m_Velocity += m_Accelaration * DeltaTime;
+	m_Velocity += m_Accelaration;
 
 	if (m_Velocity.Length() > m_MaxVelocity) {
 		m_Velocity = m_Velocity.Normal() * m_MaxVelocity;
 	}
 
-	GetTransform()->Position += m_Velocity;
+	GetTransform()->Position += m_Velocity * DeltaTime;
 
 	m_Accelaration = SEVector2::Zero();
 }

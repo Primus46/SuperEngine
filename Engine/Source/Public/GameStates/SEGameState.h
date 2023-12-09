@@ -1,6 +1,6 @@
 #pragma once
 
-/*class SEInput;
+class SEInput;
 class Window;
 class SECollisionEngine;
 
@@ -31,10 +31,9 @@ protected:
 	virtual void OnUpdate(float DeltaTime) {}
 
 private:
+	// Window assigned to the game state
 	Window* m_Window;
 
+	// store all of the collisions related to the game state
 	SECollisionEngine* m_CollisionEngine;
 };
-
-
-*/

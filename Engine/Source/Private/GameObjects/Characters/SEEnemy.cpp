@@ -2,11 +2,13 @@
 #include "GameObjects/Characters/SEEnemy.h"
 #include "GameObjects/Components/SESpriteComponent.h"
 #include "GameObjects/Components/SEMovementComponent.h"
+#include "GameObjects/Components/SECollisionComponent.h"
 #include "Window/Window.h"
 
 SEEnemy::SEEnemy(SEString DefaultName, Window* AssignedWindow) 
 	: SECharacter(DefaultName, AssignedWindow)
 {
+	m_CharacterSize = SEVector2(64.0f);
 	m_EngineEffects = AddComponent<SESpriteComponent>();
 
 	// add ship sprite to the main sprite component
@@ -23,25 +25,33 @@ SEEnemy::SEEnemy(SEString DefaultName, Window* AssignedWindow)
 	// moves down the screen from the get go
 	m_MovementDir = SEVector2(0.0f, 1.0f);
 
-	m_EnemyAcceleration = 10.0f;
-	GetMovementComponent()->m_MaxVelocity = 1.0f;
-	GetMovementComponent()->m_Drag = -4.0f;
+	m_EnemyAcceleration = 100.0f;
+	GetMovementComponent()->m_MaxVelocity = 100.0f;
+	GetMovementComponent()->m_Drag = -5.0f;
 
 	SetRotation(180.0f);
 	SetScale(2.0f);
+
 }
 
 void SEEnemy::Update(float DeltaTime)
 {
 	SECharacter::Update(DeltaTime);
 	
-	if (m_MovementDir == SEVector2(0.0f, 1.0f)) {
-		GetMovementComponent()->AddForce(m_MovementDir, m_EnemyAcceleration);
-		SELog("The spaceship Fighter showed be moving");
-	}
+	GetMovementComponent()->AddForce(m_MovementDir, m_EnemyAcceleration);
 	
 	if (GetTransform()->Position.y > GetWindow()->GetHeight()) {
-		SetPosition({ GetTransform()->Position.x, -64.0f * 2.0f });
+		SetPosition({ GetTransform()->Position.x, -GetScaledCharacterSize().y});
 	}
 
+}
+
+void SEEnemy::BeginPlay()
+{
+	SECharacter::BeginPlay();
+
+	GetCollisionComponent()->GetCollision()->Bounds.w = GetScaledCharacterSize().x * 0.5;
+	GetCollisionComponent()->GetCollision()->Bounds.h = GetScaledCharacterSize().y * 0.5;
+	GetCollisionComponent()->BoundsOffset.x = 32.0f;
+	GetCollisionComponent()->BoundsOffset.y = 22.0f;
 }

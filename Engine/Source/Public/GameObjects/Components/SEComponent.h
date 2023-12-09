@@ -9,13 +9,13 @@ public:
 	~SEComponent() = default;
 
 	// Run when component first spawns
-	virtual void BeginPlay() { SELog("BeginPlay"); }
+	virtual void BeginPlay() { ; }
 
 	// Detect game Input
-	virtual void ProcessInput(SEInput* GameInput) { SELog("ProcessInput"); }
+	virtual void ProcessInput(SEInput* GameInput) { ; }
 
 	// Run component logic
-	virtual void Update(float DeltaTime) { SELog("Update"); }
+	virtual void Update(float DeltaTime) { ; }
 
 	// Destroys component
 	void Destroy();
@@ -24,7 +24,7 @@ public:
 	SEGameObject* GetOwner() const { return m_Owner; }
 
 protected:
-	virtual void OnDestroy() { SELog("OnDestroy"); }
+	virtual void OnDestroy() { ; }
 
 private:
 	//the gameObject owners of the component

@@ -1,6 +1,8 @@
 #include "CoreMinimal.h"
 #include "GameStates/SEGameState.h"
-/*
+
+#include "Collisions/SECollisionEngine.h"
+
 SEGameState::SEGameState(Window* AssignedWindow)
 {
 	m_Window = AssignedWindow;
@@ -9,8 +11,6 @@ SEGameState::SEGameState(Window* AssignedWindow)
 
 SEGameState::~SEGameState()
 {
-
-	
 
 	delete m_CollisionEngine;
 }
@@ -31,4 +31,3 @@ void SEGameState::Update(float DeltaTime)
 }
 
 
-*/

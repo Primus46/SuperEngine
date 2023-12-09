@@ -8,6 +8,7 @@
 // DEBUG HEADER
 #include "GameObjects/Characters/SEPlayer.h"
 #include "GameObjects/Characters/SEEnemy.h"
+#include "Collisions/SECollisionEngine.h"
 
 Game* Game::GetGameInstance()
 {
@@ -78,6 +79,10 @@ Game::Game()
 	m_DeltaTime = 0.0;
 	m_GameInput = nullptr;
 
+	// DEBUG
+	m_Player = nullptr;
+	m_CollisionEngine = nullptr;
+
 }
 
 Game::~Game()
@@ -104,6 +109,7 @@ void Game::Start()
 		return;
 	}
 	m_GameInput = new SEInput();
+	m_CollisionEngine = new SECollisionEngine();
 
 	// DEBUG add test game object
 	SEEnemy* Enemy = AddGameObject<SEEnemy>();

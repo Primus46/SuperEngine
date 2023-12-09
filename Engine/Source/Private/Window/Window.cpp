@@ -1,6 +1,9 @@
 #include "CoreMinimal.h"
 #include "Window/Window.h"
 #include "Graphics/SETexture.h"
+#include "Game.h"
+#include "Collisions/SECollisionEngine.h"
+#include "Collisions/SECollision.h"
 
 #include "Window/SEWindowMenu.h"
 
@@ -99,8 +102,28 @@ TSharedPtr<SETexture> Window::CreateTexture(SEString PathToFile)
 }
 
 void Window::RenderCustomerGraphics()
-{
+{	
+	// loop over each element in the array and run the render function
+	// iTexture will represent the element of each loop
 	for (auto iTexture : m_TextureStack) {
 		iTexture->Render(m_Renderer);
+	}
+
+	// draw collisions that are set to debug
+	for (auto Col : Game::GetGameInstance()->GetCollisions()->GetCollisions()) {
+		if (!Col->Debug) {
+			continue;
+		}
+
+		// set teh draw rect to the same value as out bounds
+		SDL_FRect DrawRect;
+		DrawRect.x = Col->Bounds.x;
+		DrawRect.y = Col->Bounds.y;
+		DrawRect.w = Col->Bounds.w;
+		DrawRect.h = Col->Bounds.h;
+
+		// this sets the colour of the box
+		SDL_SetRenderDrawColor(m_Renderer, 255, 0, 0, 255);
+		SDL_RenderDrawRectF(m_Renderer, &DrawRect);
 	}
 }

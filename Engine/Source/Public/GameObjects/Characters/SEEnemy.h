@@ -9,6 +9,8 @@ public:
 	
 	void Update(float DeltaTime) override;
 
+	void BeginPlay() override;
+
 private:
 	// sprite component for engine effects animation
 	TSharedPtr<SESpriteComponent> m_EngineEffects;

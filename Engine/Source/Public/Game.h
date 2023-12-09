@@ -2,10 +2,12 @@
 
 class Window;
 class SEInput;
+class SECollisionEngine;
 
 //DEBUG
 class SEAnimStateMachine;
 class SEGameObject;
+
 
 class Game {
 public:
@@ -36,6 +38,9 @@ public:
 	// remove the game object from teh game objects stack
 	// make sure to remove all references of the gameobject in other areas
 	void RemoveGameObject(SEGameObject* GameObject);
+
+	// gets the current collision engine
+	SECollisionEngine* GetCollisions() const { return m_CollisionEngine; }
 
 	// GEt the main Window
 	Window* GetWindow() const { return m_Window; }
@@ -73,4 +78,7 @@ private:
 
 	// DEBUG VAR
 	SEGameObject* m_Player;
+
+	// storing a collision engine in the game
+	SECollisionEngine* m_CollisionEngine;
 };

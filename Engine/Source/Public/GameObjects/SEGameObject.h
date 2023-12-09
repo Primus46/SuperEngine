@@ -7,6 +7,7 @@ class SEInput;
 class SEComponent;
 class SETransformComponent;
 struct SEVector2;
+class SECollision;
 
 class SEGameObject {
 public:
@@ -21,6 +22,14 @@ public:
 
 	// Update logic for the game object
 	virtual void Update(float DeltaTime);
+
+	// activate when a collision overlaps with this game object collision
+	// this will only run if there is a collision component on the gameobject
+	virtual void OnBeginOverlap(SECollision* Col) {}
+
+	//activate when a collision stops overlapping with this game object collision
+	// this will only run if there is a collision component on the gameobject
+	virtual void OnEndOverlap(SECollision* Col) {}
 
 	// Destroys the object and it's components
 	void Destroy();
