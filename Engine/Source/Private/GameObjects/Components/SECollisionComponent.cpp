@@ -50,6 +50,11 @@ void SECollisionComponent::Update(float DeltaTime)
 
 }
 
+void SECollisionComponent::OnDestroy()
+{
+	Game::GetGameInstance()->GetCollisions()->RemoveCollision(m_Collision); 
+}
+
 void SECollisionComponent::FollowOwner()
 {
 	// set the position of the bounding box to the position of the gameobject owner and offset the value

@@ -6,16 +6,21 @@
 #include "GameObjects/Components/SECollisionComponent.h"
 #include "SEInput.h"
 #include "Window/Window.h"
+#include "Game.h"
 
 SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
 	: SECharacter(DefaultName, AssignedWindow)
 {
+	GetCollisionComponent()->GetCollision()->Type = OT_PLAYER;
+
 	m_CharacterSize = SEVector2(48.0f, 58.0f);
 	m_MainshipSprite = AddComponent<SESpriteComponent>();
 
 	m_PlayerAcceleration = 100.0f;
 	GetMovementComponent()->m_MaxVelocity = 600.0f;
 	GetMovementComponent()->m_Drag = 1.0f;
+
+	m_MovementDir = SEVector2::Zero();
 
 	// add player sprites & animations
 
@@ -29,8 +34,8 @@ SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
 	AnimParams.EndFrame = 2;
 	AnimParams.RowCount = 3;
 
-	// animation for Player ship left & right
 
+	// animation for Player ship left & right
 
 
 	// animation for Player ship foward & back
@@ -66,7 +71,7 @@ void SEPlayer::Update(float DeltaTime)
 	}
 	else {
 		if (GetMovementComponent()->GetVelocity().Length() > 200.0f &&
-			GetMovementComponent()->GetVelocity().Length() < 500.0f) {
+			GetMovementComponent()->GetVelocity().Length() < 400.0f) {
 			m_MainshipSprite->SetSpriteIndex(2); // powering up or down
 		}
 		else if (GetMovementComponent()->GetVelocity().Length() > 10.0f &&
@@ -112,14 +117,15 @@ void SEPlayer::OnBeginOverlap(SECollision* Col)
 {
 	SECharacter::OnBeginOverlap(Col);
 
-	SELog("Collision Overlapped");
+	if (Col->Type == OT_ENEMY) {
+		Col->GetOwner()->Destroy();
+		Game::GetGameInstance()->AddScore(-100);
+	}
 }
 
 void SEPlayer::OnEndOverlap(SECollision* Col)
 {
 	SECharacter::OnEndOverlap(Col);
-
-	SELog("Collision End Overlapped");
 }
 
 void SEPlayer::LimitPlayerX()

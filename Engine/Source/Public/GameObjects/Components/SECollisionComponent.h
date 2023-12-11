@@ -17,6 +17,9 @@ public:
 	// returns the collision attached to this component
 	SECollision* GetCollision() const { return m_Collision; }
 
+protected:
+	virtual void OnDestroy() override;
+
 private:
 	// set the position of the bounds to the position of the gameobject
 	void FollowOwner();

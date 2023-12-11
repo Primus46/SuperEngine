@@ -12,20 +12,31 @@ SEAnimation::SEAnimation()
 
 SEAnimation::~SEAnimation()
 {
+	// remove the spritsheet/texture from the window
+	m_Window->RemoveTexture(m_SpriteSheet);
+
+	// make sure to derefernce it so it destroys itself
 	m_SpriteSheet = nullptr;
 }
 
 bool SEAnimation::InportAnimation(Window* AssignedWindow, SEString PathToFile, SEAnimParams AnimParams)
 {
+	// store the window that this animation is assigned to
+	m_Window = AssignedWindow;
+
+	// create the texture and store it in spritesheet for latter use
 	m_SpriteSheet = AssignedWindow->CreateTexture(PathToFile);
 
+	// validation check that the texture worked
 	if (m_SpriteSheet == nullptr) {
 		SELog("Animation failed to create texture.");
 		return false;
 	}
 
+	// set the anim params if the texture worked
 	m_AnimParams = AnimParams;
 
+	// Automatically set width and height of the animation if they aren't set
 	if (m_AnimParams.FrameHeight == 0) {
 		m_AnimParams.FrameHeight = m_SpriteSheet->GetHeight() / std::max(m_AnimParams.RowCount, 1U);
 	}

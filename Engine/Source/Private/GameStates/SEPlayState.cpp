@@ -1,2 +1,112 @@
 #include "CoreMinimal.h"
 #include "GameStates/SEPlayState.h"
+
+#include "GameObjects/Characters/SEEnemy.h"
+#include "GameObjects/Characters/SEPlayer.h"
+#include "Window/Window.h"
+#include "SEInput.h"
+#include "Game.h"
+#include "GameStates/SEGameStateMachine.h"
+#include "GameObjects/SETextObject.h"
+
+
+SEPlayState::SEPlayState(Window* AssignedWindow) 
+	: SEGameState(AssignedWindow)
+{
+	m_Player = nullptr;
+	m_SpawnTimer = 0.0f;
+	m_SpawnFrequency = 5.0f;
+	m_ScoreText = nullptr;
+	m_StateScore = -1;
+}
+
+void SEPlayState::OnBeginPlay()
+{
+	// DEBUG add test game object
+	srand(static_cast<SEUint>(time(NULL)));
+
+	SpawnEnemy();
+
+	m_Player = AddGameObject<SEPlayer>();
+
+	m_Player->SetPosition({
+		(static_cast<float>(GetWindow()->GetWidth()) * 0.5f) - m_Player->GetScaledCharacterSize().x,
+		static_cast<float>(GetWindow()->GetHeight()) - m_Player->GetScaledCharacterSize().y
+		});
+
+	Game::GetGameInstance()->SetScore(0);
+
+	m_ScoreText = AddGameObject<SETextObject>();
+	m_ScoreText->LoadFont("EngineContent/images/Fonts/Pixelify/PixelifySans-Regular.ttf");
+	m_ScoreText->SetFontSize(48);
+	UpdateScore();
+
+}
+
+void SEPlayState::OnProcessInput(SEInput* GameInput)
+{
+	static float SwitchTimer = 0.0f;
+
+	if (GameInput->IsKeyDown(SDL_SCANCODE_1) && SwitchTimer <= 0.0f) {
+		SwitchTimer = 1.0f;
+		Game::GetGameInstance()->GetGameStateMachine()->SetNewState<SEPlayState>();
+	}
+
+	if (SwitchTimer > 0.0f) {
+		SwitchTimer -= Game::GetGameInstance()->GetDeltaTimeF();
+	}
+
+}
+
+void SEPlayState::OnUpdate(float DeltaTime)
+{	
+
+	UpdateScore();
+
+	// increment the timer every frame
+	m_SpawnTimer += DeltaTime;
+
+	// check if the timer is greater than or eqaul to the spawn frequency
+	if (m_SpawnTimer >= m_SpawnFrequency) {
+		// spawn the enemy and reset the timer
+		SpawnEnemy();
+		m_SpawnTimer = 0.0f;
+		// increase the frequency over time
+		m_SpawnFrequency -= 0.25f;
+		// make sure the frequency can't go below 0.5s
+		m_SpawnFrequency = std::max(0.5f, m_SpawnFrequency);
+	}
+}
+
+void SEPlayState::SpawnEnemy()
+{
+	SEEnemy* Enemy = AddGameObject<SEEnemy>();
+
+	float WindowLength = static_cast<float>(GetWindow()->GetWidth()) - Enemy->GetScaledCharacterSize().x;
+	float RandomMax = static_cast<float>(RAND_MAX) / WindowLength;
+	float RandomPos = static_cast<float>(rand()) / RandomMax;
+
+	Enemy->SetPosition({	// set Enemy x position to middle of screen
+		RandomPos,
+		-Enemy->GetScaledCharacterSize().y
+		});
+}
+
+void SEPlayState::UpdateScore()
+{
+	int GameScore = Game::GetGameInstance()->GetScore();
+
+	if (m_StateScore == GameScore) {
+		return;
+	}
+
+	float HalfWindowWidth = static_cast<float>(GetWindow()->GetWidth()) * 0.5f;
+
+	m_ScoreText->SetText(std::to_string(GameScore));
+	m_ScoreText->SetPosition({
+		HalfWindowWidth - (m_ScoreText->GetWidth() * 0.5f),
+		10.0f
+		});
+
+	m_StateScore = GameScore;
+}

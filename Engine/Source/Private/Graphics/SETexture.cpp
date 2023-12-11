@@ -20,10 +20,10 @@ SETexture::~SETexture()
 
 bool SETexture::InportTexture(SDL_Renderer* Renderer, SEString PathToFile)
 {
-	if (m_Texture != nullptr) {
-		ClearTexture();
-	}
+	// clear the texture if there already is one
+	ClearTexture();
 
+	// import the texture - SDL_Surface - string of pixels
 	SDL_Surface* ImageSurface = IMG_Load(PathToFile.c_str());
 
 	if (ImageSurface == nullptr) {
@@ -31,14 +31,17 @@ bool SETexture::InportTexture(SDL_Renderer* Renderer, SEString PathToFile)
 		return false;
 	}
 
+	// turn the surface into a texture to render to the screen
 	m_Texture = SDL_CreateTextureFromSurface(Renderer, ImageSurface);
 
+	// set the width and height of the image
 	m_ScreenRect.w = m_Width = ImageSurface->w;
 	m_ScreenRect.h = m_Height = ImageSurface->h;
 
-
+	// set the path
 	m_Path = PathToFile;
 
+	// remove the surface from memory
 	SDL_FreeSurface(ImageSurface);
 
 	if (m_Texture == nullptr) {
@@ -46,6 +49,7 @@ bool SETexture::InportTexture(SDL_Renderer* Renderer, SEString PathToFile)
 		return false;
 	}
 
+	// log success
 	SELog("Texture loaded successfully: " + m_Path);
 
 	return true;

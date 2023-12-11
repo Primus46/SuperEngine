@@ -3,11 +3,7 @@
 class Window;
 class SEInput;
 class SECollisionEngine;
-
-//DEBUG
-class SEAnimStateMachine;
-class SEGameObject;
-
+class SEGameStateMachine;
 
 class Game {
 public:
@@ -20,29 +16,23 @@ public:
 
 	/*inline*/ float GetDeltaTimeF() const { return static_cast<float>(m_DeltaTime); }
 
-	// add a game object to the game
-	template<class G, typename std::enable_if<std::is_base_of<SEGameObject, G>::value>::type* = nullptr>
-	inline G* AddGameObject(SEString ObjectName = "DefaultName") {
-		G* NewGameObject = new G(ObjectName, m_Window);
-
-		if (NewGameObject == nullptr) {
-			SELog("GameObject failed to create: " + ObjectName);
-			return nullptr;
-		}
-
-		m_GameObjectStack.push_back(NewGameObject);
-
-		return NewGameObject;
-	}
-
-	// remove the game object from teh game objects stack
-	// make sure to remove all references of the gameobject in other areas
-	void RemoveGameObject(SEGameObject* GameObject);
 
 	// gets the current collision engine
-	SECollisionEngine* GetCollisions() const { return m_CollisionEngine; }
+	SECollisionEngine* GetCollisions() const; 
 
-	// GEt the main Window
+	// returns the game state machine
+	SEGameStateMachine* GetGameStateMachine() const { return m_GameStateMachine; }
+
+	// get the score for the game
+	int GetScore() const { return m_GameScore; }
+
+	// set the score directly
+	void SetScore(int Score);
+
+	// add to the score
+	void AddScore(int Amount);
+
+	// Get the main Window
 	Window* GetWindow() const { return m_Window; }
 
 	//Restart the game back to the main menu
@@ -52,13 +42,25 @@ private:
 	Game();
 	~Game();
 
+	// initialise all libraries and dependencies
 	bool Initialise();
+
+	// runs once when the game starts
+	// runs after initialise
 	void Start();
 
-	// Game loop
+	// runs at the start of each frame loop
+	void LoopStart();
+
+	// process any user input - first function in the game loop
 	void ProcessInput();
+	// update logic of the game based on input and checks - second function in the game loop
 	void Update();
+	// render graphics to the screen - third function in the game loop
 	void Render();
+
+	// handle garbage collection
+	void CollectGarbage();
 
 	//clears the game up (deallocates memory)
 	void CleanupGame();
@@ -72,13 +74,11 @@ private:
 	double m_DeltaTime;
 	// store the game input
 	SEInput* m_GameInput;
+	
+	// store the game state machine
+	SEGameStateMachine* m_GameStateMachine;
+	
+	// store the score for the game
+	int m_GameScore;
 
-	// hold all the game objects in the game
-	TArray<SEGameObject*> m_GameObjectStack;
-
-	// DEBUG VAR
-	SEGameObject* m_Player;
-
-	// storing a collision engine in the game
-	SECollisionEngine* m_CollisionEngine;
 };

@@ -23,11 +23,18 @@ public:
 private:
 	void ClipAnimation();
 private:
+	// animation paramaters for play rate
 	SEAnimParams m_AnimParams;
 
+	// spritsheet texture
 	TSharedPtr<SETexture> m_SpriteSheet;
 
+	// time since the last frame
 	float FrameTimer;
 
+	// current frame playing in the animation
 	SEUint CurrentFrame;
+
+	// store the window this animation is assigned to 
+	Window* m_Window;
 };

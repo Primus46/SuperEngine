@@ -67,7 +67,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)ExternalLibs\StaticLibs\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)ExternalLibs\DynamicLibs\*.dll" "$(SolutionDir)Build\$(Configuration)\"</Command>
@@ -100,6 +100,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\GameStates\SEMainMenuState.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\SETextObject.cpp" />
+    <ClCompile Include="Source\Private\Graphics\SEText.cpp" />
     <ClCompile Include="Source\Private\Window\SEWindowMenu.cpp" />
     <ClCompile Include="Source\Private\GameStates\SEGameStateMachine.cpp" />
     <ClCompile Include="Source\Private\GameStates\SEPlayState.cpp" />
@@ -125,6 +128,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Source\Public\GameStates\SEMainMenuState.h" />
+    <ClInclude Include="Source\Public\GameObjects\SETextObject.h" />
+    <ClInclude Include="Source\Public\Graphics\SEText.h" />
     <ClInclude Include="Source\Public\Window\SEWindowMenu.h" />
     <ClInclude Include="Source\Public\GameStates\SEGameStateMachine.h" />
     <ClInclude Include="Source\Public\GameStates\SEPlayState.h" />

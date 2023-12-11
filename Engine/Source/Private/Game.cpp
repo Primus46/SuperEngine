@@ -2,13 +2,13 @@
 #include "Game.h"
 #include "Window/Window.h"
 #include "SEInput.h"
-#include "Math/SEVector2.h"
-#include "GameObjects/SEGameObject.h"
+#include "SDL2/SDL_ttf.h"
 
-// DEBUG HEADER
-#include "GameObjects/Characters/SEPlayer.h"
-#include "GameObjects/Characters/SEEnemy.h"
-#include "Collisions/SECollisionEngine.h"
+#include "GameStates/SEGameStateMachine.h"
+#include "GameStates/SEGameState.h"
+#include "GameStates/SEPlayState.h"
+#include"GameStates/SEMainMenuState.h"
+
 
 Game* Game::GetGameInstance()
 {
@@ -31,35 +31,34 @@ void Game::Run()
 		Start();
 
 		while (m_IsRunning) {
+			LoopStart();
+
 			ProcessInput();
 
 			Update();
 
 			Render();
+
+			CollectGarbage();
 		}
 	}
 
 	CleanupGame();
 }
 
-void Game::RemoveGameObject(SEGameObject* GameObject)
+SECollisionEngine* Game::GetCollisions() const
 {
-	auto it = std::find(m_GameObjectStack.begin(),
-		m_GameObjectStack.end(), 
-		GameObject
-	);
+	return m_GameStateMachine->GetActiveGameState()->GetCollisionEngine();
+}
 
-	// if it == end() then that means reached the empty item vector array and that means there is no item
-	if (it == m_GameObjectStack.end()) {
-		return;
-	}
+void Game::SetScore(int Score)
+{
+	m_GameScore = Score;
+}
 
-	// delete the game objects from memory
-	delete *it;
-	
-
-	// erase removes items from the array
-	m_GameObjectStack.erase(it);
+void Game::AddScore(int Amount)
+{
+	SetScore(GetScore() + Amount);
 }
 
 void Game::RestartGame()
@@ -78,11 +77,8 @@ Game::Game()
 	m_Window = nullptr;
 	m_DeltaTime = 0.0;
 	m_GameInput = nullptr;
-
-	// DEBUG
-	m_Player = nullptr;
-	m_CollisionEngine = nullptr;
-
+	m_GameStateMachine = nullptr;
+	m_GameScore = 0;
 }
 
 Game::~Game()
@@ -93,7 +89,11 @@ Game::~Game()
 bool Game::Initialise()
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		std::cout << "SDL failed to initialise: " << SDL_GetError() << std::endl;
+		SELog("SDL failed to initialise: " + SEString(SDL_GetError()));
+		return false;
+	}
+	if (TTF_Init() == -1) {
+		SELog("SDL TTF failed to initialise: " + SEString(TTF_GetError()));
 		return false;
 	}
 
@@ -109,38 +109,25 @@ void Game::Start()
 		return;
 	}
 	m_GameInput = new SEInput();
-	m_CollisionEngine = new SECollisionEngine();
 
-	// DEBUG add test game object
-	SEEnemy* Enemy = AddGameObject<SEEnemy>();
-	m_Player = AddGameObject<SEPlayer>();
+	// create the game state machine and add the assigned window
+	m_GameStateMachine = new SEGameStateMachine(m_Window);
+	//Create a new state and this will automatically run the beginplay
+	m_GameStateMachine->SetNewState<SEMainMenuState>();
 
-	
-	Enemy->SetPosition({ 
-		static_cast<float>(Enemy->GetWindow()->GetWidth() * 0.5f) - 64.0f *2.0f, // set Enemy x position to middle of screen
-		-64.0f * 2.0f
-		});
-	m_Player->SetPosition({
-		(static_cast<float>(m_Player->GetWindow()->GetWidth()) *0.5f) - (48.0f * 2.0f), // set Player x position to middle of screen
-		static_cast<float>(m_Player->GetWindow()->GetHeight()) - (58.0f * 2.0f) // set Player y position to middle of screen
-		});
-
-	// loop through all game objects in the game and run their begin play
-	for (auto GameObject : m_GameObjectStack) {
-		if (GameObject == nullptr) {
-			continue;
-		}
-
-		GameObject->BeginPlay();
-	}
+	m_GameStateMachine->BeginPlay();
 
 	/*
 	* Replace
-	//Create a new state and this will automatically run the beginplay
 	m_GameStateMachine->SetNewState<SEMainMenuState>();
 	*With
 	* RestartGame();
 	*/
+}
+
+void Game::LoopStart()
+{
+	m_GameStateMachine->LoopStart();
 }
 
 void Game::ProcessInput()
@@ -150,26 +137,24 @@ void Game::ProcessInput()
 
 		return;
 	}
+	// process the inputs and workout what hes been pressed
 	m_GameInput->ProcessInput();
 
-	// loop through all game objects in the game and run their process input
-	for (auto GameObject : m_GameObjectStack) {
-		if (GameObject == nullptr) {
-			continue;
-		}
-
-		GameObject->ProcessInput(m_GameInput);
-	}
+	// run the inputs detection for the game state
+	m_GameStateMachine->ProcessInput(m_GameInput);
+	
 }
 
 void Game::Update()
 {
+	// delta time must be calculated first
 	static double LastTickTime = 0.0;
-	
+	// get the amount of time tht's passed since the game started from SDL_GetTicks
 	double CurrentTickTime = static_cast<double>(SDL_GetTicks64());
-
+	// remove the last tick from the current tick time to get the delta time
+	// we also want to simplify the number to seconds so we divide it by 1000
 	m_DeltaTime = (CurrentTickTime - LastTickTime) / 1000.0;
-
+	// update the last tick time
 	LastTickTime = CurrentTickTime;
 
 	// on escape pressed end game
@@ -177,14 +162,8 @@ void Game::Update()
 		EndGame();
 	}
 
-	// loop through all game objects in the game and run their begin update
-	for (auto GameObject : m_GameObjectStack) {
-		if (GameObject == nullptr) {
-			continue;
-		}
-
-		GameObject->Update(GetDeltaTimeF());
-	}
+	// runs the update logic for game state
+	m_GameStateMachine->Update(GetDeltaTimeF());
 
 	/*
 	static float GameTimer = 0.0f;
@@ -202,22 +181,26 @@ void Game::Render()
 	m_Window->Render();
 }
 
+void Game::CollectGarbage()
+{
+	m_GameStateMachine->CollectGabage();
+}
+
 void Game::CleanupGame()
 {
-	// loop through all game objects in the game and run their destroy
-	for (auto GameObject : m_GameObjectStack) {
-		if (GameObject == nullptr) {
-			continue;
-		}
-
-		GameObject->Destroy();
-	}
-
+	// delete the current game state from memory
+	delete m_GameStateMachine;
+	// delete the input
 	delete m_GameInput;
 
+	// destroy and deallocate the window
 	if (m_Window != nullptr) {
 		m_Window->Destroy();
 		delete m_Window;
 	}
+	// deload the TTF stuff
+	TTF_Quit();
+
+	// quit SDL
 	SDL_Quit();
 }

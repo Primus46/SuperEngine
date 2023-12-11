@@ -3,6 +3,7 @@
 class SETexture;
 
 class SEWindowMenu;
+class SEText;
 
 class Window {
 public:
@@ -17,6 +18,13 @@ public:
 	void Destroy();
 	// create a texture and add it to the texture stack for rendering
 	TSharedPtr<SETexture> CreateTexture(SEString PathToFile);
+
+	// create a texture and add it to the texture stack for rendering
+	TSharedPtr<SEText> CreateText(SEString PathToFile);
+
+	// remove the texture from the texture stack in the window
+	// rember that if you are referenceing this anywhere else remove that reference too
+	void RemoveTexture(TSharedPtr<SETexture> Texture);
 
 	// get the width of the window
 	int GetWidth() const { return m_Width; }
@@ -43,6 +51,8 @@ private:
 	SDL_Color m_BGColour;
 	// window texture stack
 	TSharedArray<SETexture> m_TextureStack;
+	// window text stack
+	TSharedArray<SEText> m_TextStack;
 
 
 	// window menu for the window

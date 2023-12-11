@@ -5,7 +5,7 @@ public:
 	SETexture();
 	~SETexture();
 
-	bool InportTexture(SDL_Renderer* Renderer, SEString PathToFile);
+	virtual bool InportTexture(SDL_Renderer* Renderer, SEString PathToFile);
 
 	void Render(SDL_Renderer* Renderer);
 
@@ -29,7 +29,7 @@ public:
 	// rotate the angle of the texture
 	void SetRotation(double NewRot) { m_Rotation = NewRot; }
 
-private:
+protected:
 	// hold the screen position and scale of the texture
 	SDL_FRect m_ScreenRect;
 	// the clip value for the textur

@@ -4,10 +4,13 @@
 #include "GameObjects/Components/SEMovementComponent.h"
 #include "GameObjects/Components/SECollisionComponent.h"
 #include "Window/Window.h"
+#include "Game.h"
 
 SEEnemy::SEEnemy(SEString DefaultName, Window* AssignedWindow) 
 	: SECharacter(DefaultName, AssignedWindow)
 {
+	GetCollisionComponent()->GetCollision()->Type = OT_ENEMY;
+
 	m_CharacterSize = SEVector2(64.0f);
 	m_EngineEffects = AddComponent<SESpriteComponent>();
 
@@ -41,7 +44,8 @@ void SEEnemy::Update(float DeltaTime)
 	GetMovementComponent()->AddForce(m_MovementDir, m_EnemyAcceleration);
 	
 	if (GetTransform()->Position.y > GetWindow()->GetHeight()) {
-		SetPosition({ GetTransform()->Position.x, -GetScaledCharacterSize().y});
+		Destroy();
+		Game::GetGameInstance()->AddScore(-100);
 	}
 
 }

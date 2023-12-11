@@ -49,19 +49,21 @@ void SEGameObject::Destroy()
 	OnDestroy();
 
 	for (auto Component : m_Components) {
+		// test if the item is nullptr
 		if (Component == nullptr) {
+			// skip this loop if it is
 			continue;
 		}
 
 		Component->Destroy();
 	}
 
+	// remove all references to memory in the array
+	//because all components are shared ptrs they will delete themselves
 	m_Components.clear();
 
 	// let's the game know this game object wants to be removed
 	m_ShouldDestroy = true;
-
-	Game::GetGameInstance()->RemoveGameObject(this);
 }
 
 void SEGameObject::SetPosition(SEVector2 Position)
