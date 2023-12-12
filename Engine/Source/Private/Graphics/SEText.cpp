@@ -85,10 +85,6 @@ bool SEText::CreateTextFromFont()
 		return false;
 	}
 
-	// log success
-	SELog("Texture loaded successfully: " + m_Path);
-
-
 	return true;
 }
 

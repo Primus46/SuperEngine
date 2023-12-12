@@ -100,6 +100,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Private\GameObjects\Projectiles\SEEnemyProjectileSmall.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Characters\SEEnemyShooter.cpp" />
+    <ClCompile Include="Source\Private\GameObjects\Projectiles\SEPlayerProjectile.cpp" />
     <ClCompile Include="Source\Private\GameObjects\Projectiles\SEProjectile.cpp" />
     <ClCompile Include="Source\Private\SEAudioPlayer.cpp" />
     <ClCompile Include="Source\Private\GameStates\SEMainMenuState.cpp" />
@@ -130,6 +133,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Source\Public\GameObjects\Projectiles\SEEnemyProjectileSmall.h" />
+    <ClInclude Include="Source\Public\GameObjects\Characters\SEEnemyShooter.h" />
+    <ClInclude Include="Source\Public\GameObjects\Projectiles\SEPlayerProjectile.h" />
     <ClInclude Include="Source\Public\GameObjects\Projectiles\SEProjectile.h" />
     <ClInclude Include="Source\Public\SEAudioPlayer.h" />
     <ClInclude Include="Source\Public\GameStates\SEMainMenuState.h" />

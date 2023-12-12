@@ -49,6 +49,11 @@ void SESpriteComponent::Update(float DeltaTime)
 	m_ASM->Update(DeltaTime);
 }
 
+void SESpriteComponent::ClearSprites()
+{
+	m_ASM->ClearAllAnimations();
+}
+
 void SESpriteComponent::OnDestroy()
 {
 	if (m_ASM != nullptr) {

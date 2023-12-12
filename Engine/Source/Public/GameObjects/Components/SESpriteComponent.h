@@ -17,6 +17,8 @@ public:
 
 	void Update(float DeltaTime) override;
 
+	void ClearSprites();
+
 protected:
 	void OnDestroy() override;
 

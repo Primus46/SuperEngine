@@ -33,8 +33,12 @@ public:
 	// will run OnDeath once when the character lives fall on or below 0
 	void ApplyDamage(int Damage = 1);
 
+protected:
 	// runs if the character lives fall on or below o
 	virtual void OnDeath();
+
+	// if the enemy takes damge and doesn't die
+	virtual void OnTakeDamage() {}
 
 protected:
 	// size of the character

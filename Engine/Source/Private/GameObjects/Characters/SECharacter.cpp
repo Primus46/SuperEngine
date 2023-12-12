@@ -34,7 +34,7 @@ SEVector2 SECharacter::GetScaledCharacterSize() const
 
 void SECharacter::ApplyDamage(int Damage)
 {
-	if (m_IsDead) {
+	if (m_IsDead == true) {
 		return;
 	}
 
@@ -44,11 +44,13 @@ void SECharacter::ApplyDamage(int Damage)
 		m_Lives = 0;
 		OnDeath();
 	}
+	else {
+		OnTakeDamage();
+	}
 }
 
 void SECharacter::OnDeath()
 {
 	m_IsDead = true;
-	SELog("Is Dead");
 }
 

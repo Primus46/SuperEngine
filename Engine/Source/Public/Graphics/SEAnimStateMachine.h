@@ -23,6 +23,9 @@ public:
 	void SetRotation(float NewRot);
 	// Change animation to another one
 	void SetIndex(SEUint Index);
+
+	// remove all animations from the ASM
+	void ClearAllAnimations();
 	
 private:
 	// update the transforms of animations to match teh state machine

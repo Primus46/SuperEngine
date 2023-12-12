@@ -8,13 +8,15 @@
 #include "Window/Window.h"
 #include "Game.h"
 #include "GameObjects/Characters/SEEnemy.h"
+#include "GameObjects/Projectiles/SEPlayerProjectile.h"
+
 
 SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
 	: SECharacter(DefaultName, AssignedWindow)
 {
 	GetCollisionComponent()->GetCollision()->Type = OT_PLAYER;
 
-	m_CharacterSize = SEVector2(48.0f, 58.0f);
+	m_CharacterSize = SEVector2(48.0f, 62.0f);
 	m_MainshipSprite = AddComponent<SESpriteComponent>();
 
 	m_PlayerAcceleration = 100.0f;
@@ -47,7 +49,10 @@ SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
 
 	SetScale(2.0f);
 
-	m_Lives = 3;
+	m_Lives = 10;
+
+	m_FireRate = 0.2f;
+	m_ShootTimer = m_FireRate;
 }
 
 void SEPlayer::BeginPlay()
@@ -84,22 +89,23 @@ void SEPlayer::Update(float DeltaTime)
 			m_MainshipSprite->SetSpriteIndex(0); // idle
 		}
 	}
-	
-	
 
 	LimitPlayerX();
+
+	// if shoot timer is less than fire rate then increase it by time
+	if (m_ShootTimer < m_FireRate) {
+		m_ShootTimer += DeltaTime;
+	}
 }
 
 void SEPlayer::ProcessInput(SEInput* GameInput)
 {
-	static float SwitchTimer = 0.0f;
-
 	SECharacter::ProcessInput(GameInput);
 	// reset input direction to update the correct direction
 	// this will also make sure we have no input direction when not pressing anything
 	m_MovementDir = SEVector2::Zero();
 
-	// move up when pressing W
+	/*// move up when pressing W
 	if (GameInput->IsKeyDown(SDL_SCANCODE_W)) {
 
 		m_MovementDir += SEVector2(0.0f, -1.0f);
@@ -107,7 +113,7 @@ void SEPlayer::ProcessInput(SEInput* GameInput)
 	// move down when pressing S
 	if (GameInput->IsKeyDown(SDL_SCANCODE_S)) {
 		m_MovementDir += SEVector2(0.0f, 1.0f);
-	}
+	}*/
 	// move right when pressing D
 	if (GameInput->IsKeyDown(SDL_SCANCODE_D)) {
 		m_MovementDir += SEVector2(1.0f, 0.0f);
@@ -117,8 +123,10 @@ void SEPlayer::ProcessInput(SEInput* GameInput)
 		m_MovementDir += SEVector2(-1.0f, 0.0f);
 	}
 
-	if (SwitchTimer > 0.0f) {
-		SwitchTimer -= Game::GetGameInstance()->GetDeltaTimeF();
+	if (GameInput->IsMouseButtonDown(MB_LEFT)) {
+		if (m_ShootTimer >= m_FireRate) {
+			TryShoot();
+		}
 	}
 }
 
@@ -128,14 +136,12 @@ void SEPlayer::OnBeginOverlap(SECollision* Col)
 
 	if (Col->Type == OT_ENEMY) {
 		if (SEEnemy* Enemy = dynamic_cast<SEEnemy*>(Col->GetOwner())) {
-			Enemy->DestroyWithEffects();
-		}
-		else {
-			Col->GetOwner()->Destroy();
+			Enemy->ApplyDamage(Enemy->GetLives());
+
 		}
 
-		Game::GetGameInstance()->AddScore(-100);
 		ApplyDamage();
+		Game::GetGameInstance()->AddScore(-100);
 	}
 }
 
@@ -148,10 +154,10 @@ void SEPlayer::LimitPlayerX()
 {
 	// getting the width of the window and casting it to a float
 	float WindowWidth = static_cast<float>(GetWindow()->GetWidth());
-	//float WindowHeight = static_cast<float>(GetWindow()->GetHeight());
+	float WindowHeight = static_cast<float>(GetWindow()->GetHeight());
 
 	float PlayerSizeWindowWidth = WindowWidth - GetScaledCharacterSize().x;
-	//float PlayerSizeWindowHeight = WindowHeight - 58.0f * GetTransform()->Scale.y;
+	float PlayerSizeWindowHeight = WindowHeight - GetScaledCharacterSize().y;
 
 	// limit player movement left side of screen
 	if (GetTransform()->Position.x <= 0.0f) {
@@ -161,12 +167,26 @@ void SEPlayer::LimitPlayerX()
 	if (GetTransform()->Position.x >= PlayerSizeWindowWidth) {
 		SetPosition({ PlayerSizeWindowWidth, GetTransform()->Position.y });
 	}
-	/*// limit player movement top side of screen
-	if (GetTransform()->Position.y <= 0.0f) {
-		SetPosition({ 0.0f, GetTransform()->Position.x });
+	// limit player movement top side of screen
+	/*if (GetTransform()->Position.y <= 10.0f) {
+		SetPosition({ 10.0f, GetTransform()->Position.x });
 	}
 	// limit player movement bottom side of screen
 	if (GetTransform()->Position.y >= PlayerSizeWindowHeight) {
 		SetPosition({ PlayerSizeWindowHeight, GetTransform()->Position.x });
 	}*/
+}
+
+void SEPlayer::TryShoot()
+{
+	if (m_ShootTimer >= m_FireRate) {
+		m_ShootTimer = 0.0f;
+
+		SEPlayerProjectile* Proj = Game::GetGameInstance()->AddGameObject<SEPlayerProjectile>();
+
+		SEVector2 SpawnPos = (GetTransform()->Position + (GetScaledCharacterSize() * 0.5f));
+		SpawnPos.x -= 5.0f;
+		SpawnPos.y -= 80.0f;
+		Proj->SetPosition(SpawnPos);
+	}
 }

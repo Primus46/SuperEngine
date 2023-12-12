@@ -12,7 +12,7 @@ void SEMainMenuState::OnBeginPlay()
 	SETextObject* Title = AddGameObject<SETextObject>();
 	Title->LoadFont("EngineContent/Fonts/Pixelify/PixelifySans-Bold.ttf");
 	Title->SetFontSize(60);
-	Title->SetText("Press SPAC BAR to start Game.");
+	Title->SetText("Press ENTER to start Game.");
 
 	float HalfWidth = static_cast<float>(GetWindow()->GetWidth()) * 0.5f;
 	float HalfHeight = static_cast<float>(GetWindow()->GetHeight()) * 0.5f;
@@ -25,7 +25,7 @@ void SEMainMenuState::OnBeginPlay()
 
 void SEMainMenuState::OnProcessInput(SEInput* GameInput)
 {
-	if (GameInput->IsKeyDown(SDL_SCANCODE_SPACE)) {
+	if (GameInput->IsKeyDown(SDL_SCANCODE_RETURN)) {
 		Game::GetGameInstance()->GetGameStateMachine()->SetNewState<SEPlayState>();
 	}
 }

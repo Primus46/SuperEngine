@@ -64,3 +64,11 @@ struct SESpriteParams {
 	SEUint FrameWidth, FrameHeight;
 	SEUint RowCount, Row;
 };
+
+enum SEObjectTypes : SEUint8 {
+	OT_ALL = 0,
+	OT_PLAYER,
+	OT_ENEMY,
+	OT_COLLECTABLE,
+	OT_PROJECTILE
+};

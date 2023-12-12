@@ -49,9 +49,6 @@ bool SETexture::InportTexture(SDL_Renderer* Renderer, SEString PathToFile)
 		return false;
 	}
 
-	// log success
-	SELog("Texture loaded successfully: " + m_Path);
-
 	return true;
 }
 

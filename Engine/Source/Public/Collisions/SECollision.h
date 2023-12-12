@@ -4,14 +4,6 @@
 
 class SEGameObject;
 
-enum SEObjectTypes : SEUint8 {
-	OT_ALL = 0,
-	OT_PLAYER,
-	OT_ENEMY,
-	OT_COLLECTABLE,
-	OT_PROJECTILE
-};
-
 class SECollision {
 public:
 	SECollision(SEGameObject* Owner) : m_Owner(Owner), Debug(false), Type(OT_ALL){}

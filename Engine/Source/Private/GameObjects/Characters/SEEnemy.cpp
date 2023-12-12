@@ -39,6 +39,10 @@ SEEnemy::SEEnemy(SEString DefaultName, Window* AssignedWindow)
 
 	m_DestroySFX[0] = GetAudio()->LoadSFX("EngineContent/Audio/Destroy_small_SFX_1.wav");
 	m_DestroySFX[1] = GetAudio()->LoadSFX("EngineContent/Audio/Destroy_small_SFX_2.wav");
+	m_Hurt = GetAudio()->LoadSFX("EngineContent/Audio/Hurt_Enemy_SFX.wav");
+
+	// I also hate how this font make the number 5 look
+	m_Value = 10;
 }
 
 void SEEnemy::Update(float DeltaTime)
@@ -60,6 +64,7 @@ void SEEnemy::BeginPlay()
 
 	GetCollisionComponent()->GetCollision()->Bounds.w = GetScaledCharacterSize().x * 0.5;
 	GetCollisionComponent()->GetCollision()->Bounds.h = GetScaledCharacterSize().y * 0.5;
+
 	GetCollisionComponent()->BoundsOffset.x = 32.0f;
 	GetCollisionComponent()->BoundsOffset.y = 22.0f;
 }
@@ -71,4 +76,18 @@ void SEEnemy::DestroyWithEffects()
 	GetAudio()->PlaySFX(m_DestroySFX[Rand], 100);
 
 	Destroy();
+}
+
+void SEEnemy::OnDeath()
+{
+	SECharacter::OnDeath();
+
+	Game::GetGameInstance()->AddScore(GetValue());
+
+	DestroyWithEffects();
+}
+
+void SEEnemy::OnTakeDamage()
+{
+	GetAudio()->PlaySFX(m_Hurt, 100);
 }

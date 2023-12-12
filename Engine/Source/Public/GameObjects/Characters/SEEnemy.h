@@ -9,13 +9,21 @@ class SEEnemy :
 public:
 	SEEnemy(SEString DefaultName, Window* AssignedWindow);
 	
-	void Update(float DeltaTime) override;
+	virtual void Update(float DeltaTime) override;
 
-	void BeginPlay() override;
+	virtual void BeginPlay() override;
 
 	void DestroyWithEffects();
 
-private:
+	virtual void OnDeath();
+
+	int GetValue() const { return m_Value; }
+
+	virtual void OnTakeDamage() override;
+
+
+
+protected:
 	// sprite component for engine effects animation
 	TSharedPtr<SESpriteComponent> m_EngineEffects;
 
@@ -26,4 +34,8 @@ private:
 	float m_EnemyAcceleration;
 
 	Mix_Chunk* m_DestroySFX[2] = { nullptr };
+
+	Mix_Chunk* m_Hurt;
+
+	int m_Value;
 };

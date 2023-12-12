@@ -11,7 +11,7 @@ SEAnimStateMachine::SEAnimStateMachine()
 
 SEAnimStateMachine::~SEAnimStateMachine()
 {
-	m_Animations.clear();
+	ClearAllAnimations();
 }
 
 bool SEAnimStateMachine::AddAnimation(Window* AssignedWindow, SEString PathToFile, SEAnimParams AnimParams)
@@ -81,6 +81,11 @@ void SEAnimStateMachine::SetIndex(SEUint Index)
 	// show the animation on the screen
 	m_Animations[m_AnimIndex]->SetVisibility(true);
 
+}
+
+void SEAnimStateMachine::ClearAllAnimations()
+{
+	m_Animations.clear();
 }
 
 void SEAnimStateMachine::UpdateAnimTransforms()

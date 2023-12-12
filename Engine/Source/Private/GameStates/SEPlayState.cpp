@@ -2,6 +2,8 @@
 #include "GameStates/SEPlayState.h"
 
 #include "GameObjects/Characters/SEEnemy.h"
+#include "GameObjects/Characters/SEEnemyShooter.h"
+
 #include "GameObjects/Characters/SEPlayer.h"
 #include "Window/Window.h"
 #include "SEInput.h"
@@ -11,15 +13,18 @@
 #include "SEAudioPlayer.h"
 #include "GameStates/SEMainMenuState.h"
 
+#include "GameObjects/Projectiles/SEPlayerProjectile.h"
+
 SEPlayState::SEPlayState(Window* AssignedWindow) 
 	: SEGameState(AssignedWindow)
 {
 	m_Player = nullptr;
 	m_SpawnTimer = 0.0f;
-	m_SpawnFrequency = 5.0f;
+	m_SpawnFrequency = 8.0f;
 	m_ScoreText = nullptr;
 	m_StateScore = -1;
 	m_StatePlayerLives = -1;
+	m_PlayerLivesText = nullptr;
 }
 
 void SEPlayState::OnBeginPlay()
@@ -50,7 +55,6 @@ void SEPlayState::OnBeginPlay()
 
 	Mix_Music* Music = GetAudio()->LoadMusic("EngineContent/Audio/321007__littlerobotsoundfactory__loop_nothing_can_stop_progress_01.wav");
 	GetAudio()->PlayMusic(Music, 12);
-
 }
 
 void SEPlayState::OnProcessInput(SEInput* GameInput)
@@ -82,9 +86,9 @@ void SEPlayState::OnUpdate(float DeltaTime)
 		SpawnEnemy();
 		m_SpawnTimer = 0.0f;
 		// increase the frequency over time
-		m_SpawnFrequency -= 0.25f;
+		m_SpawnFrequency -= 0.2f;
 		// make sure the frequency can't go below 0.5s
-		m_SpawnFrequency = std::max(0.5f, m_SpawnFrequency);
+		m_SpawnFrequency = std::max(1.0f, m_SpawnFrequency);
 	}
 
 	if (m_Player->GetLives() <= 0) {
@@ -94,7 +98,16 @@ void SEPlayState::OnUpdate(float DeltaTime)
 
 void SEPlayState::SpawnEnemy()
 {
-	SEEnemy* Enemy = AddGameObject<SEEnemy>();
+	SEEnemy* Enemy;
+
+	// change number depending on th eamount of enemies
+	// selects with enemy type is spawned
+	if (rand() % 2 == 0) {
+		Enemy = AddGameObject<SEEnemyShooter>();
+	}
+	else {
+		Enemy = AddGameObject<SEEnemy>();
+	}
 
 	float WindowLength = static_cast<float>(GetWindow()->GetWidth()) - Enemy->GetScaledCharacterSize().x;
 	float RandomMax = static_cast<float>(RAND_MAX) / WindowLength;

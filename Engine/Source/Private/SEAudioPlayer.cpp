@@ -27,7 +27,7 @@ Mix_Chunk* SEAudioPlayer::LoadSFX(SEString Path)
 {
 	// check if the sound file has already been imported
 	for (auto SFX : m_SFXStack) {
-		if (strcmp(SFX.Path.c_str(), Path.c_str())) {
+		if (strcmp(SFX.Path.c_str(), Path.c_str()) == 0) {
 			// return the chunk if it was found
 			return SFX.Chunk;
 		}
@@ -48,7 +48,7 @@ Mix_Music* SEAudioPlayer::LoadMusic(SEString Path)
 {
 	// check if the Music file has already been imported
 	for (auto Music : m_MusicStack) {
-		if (strcmp(Music.Path.c_str(), Path.c_str())) {
+		if (strcmp(Music.Path.c_str(), Path.c_str()) == 0) {
 			// return the Music if it was found
 			return Music.Music;
 		}
