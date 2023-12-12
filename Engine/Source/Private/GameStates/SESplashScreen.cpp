@@ -7,6 +7,7 @@
 #include "GameStates/SEMainMenuState.h"
 #include "Game.h"
 #include "GameStates/SEGameStateMachine.h"
+#include "SEAudioPlayer.h"
 
 void SESplashScreen::OnBeginPlay()
 {
@@ -35,6 +36,9 @@ void SESplashScreen::OnBeginPlay()
 		HalfWidth - SubTitle->GetWidth() * 0.5f,
 		FifthHeight - SubTitle->GetHeight() * 0.5f
 		});
+
+	Mix_Music* Music = GetAudio()->LoadMusic("EngineContent/Audio/space-game-theme-loop(SplashScreenTheme).MUSIC.wav");
+	GetAudio()->PlayMusic(Music, 100);
 }
 
 void SESplashScreen::OnProcessInput(SEInput* GameInput)

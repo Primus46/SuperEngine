@@ -7,6 +7,7 @@
 #include "GameStates/SEPlayState.h"
 #include "Game.h"
 #include "GameStates/SEGameStateMachine.h"
+#include "SEAudioPlayer.h"
 
 void SEMainMenuState::OnBeginPlay()
 {
@@ -22,6 +23,9 @@ void SEMainMenuState::OnBeginPlay()
 		HalfWidth - Title->GetWidth() * 0.5f,
 		HalfHeight - Title->GetHeight() * 0.5f
 	});
+
+	Mix_Music* Music = GetAudio()->LoadMusic("EngineContent/Audio/futuristic-rhythmic-game-ambience(MainMenuTheme).MUSIC.wav");
+	GetAudio()->PlayMusic(Music, 100);
 }
 
 void SEMainMenuState::OnProcessInput(SEInput* GameInput)

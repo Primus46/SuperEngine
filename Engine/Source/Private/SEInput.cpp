@@ -91,12 +91,17 @@ void SEInput::HandleWMEvents(SDL_Event Event)
 		break;
 	case ID_GAMECONTROLS:
 		Title = SEString("Game Controls");
-		Message = SEString("A: Move Left\nD: Move Right\nW: Move Forward\nS: Move Backward\n\nMore Controls Coming Soon.");
+		Message = SEString("A: Move Left\nD: Move Right\nMOUSE LEFT: Shoot\nENTER: Menu Navigation\nSPACE BAR: Menu Navigation");
 		Game::GetGameInstance()->GetWindow()->GetWindowsMenu()->ActivatePopup(Title, Message);
 		break;
 	case ID_HELP_ABOUTSUPERENGINE:
 		Title = SEString("About Super Engine");
 		Message = SEString("Super Engine is an SDL2-based C++ 2D game engine created by Connor Downey in 2023");
+		Game::GetGameInstance()->GetWindow()->GetWindowsMenu()->ActivatePopup(Title, Message);
+		break;
+	case ID_HELP_ABOUTGALAXY:
+		Title = SEString("About GALAXY");
+		Message = SEString("GALAXY is 2D gmae coded using SDL2 and C++ that was developed in a record breakingly fast time by Connor on December 12th & 13th 2023.\n It's a SHMUP(Shoot'em Up) That aims to give enjoyment to players with what it has");
 		Game::GetGameInstance()->GetWindow()->GetWindowsMenu()->ActivatePopup(Title, Message);
 		break;
 	default:
