@@ -16,6 +16,8 @@ SECharacter::SECharacter(SEString DefaultName, Window* AssignedWindow)
 	// Uncomment below line to view collision Boxes
 	// m_CollisionComponent->GetCollision()->Debug = true;
 	
+	m_Lives = 1;
+	m_IsDead = false;
 }
 void SECharacter::BeginPlay()
 {
@@ -24,8 +26,6 @@ void SECharacter::BeginPlay()
 	m_CollisionComponent->GetCollision()->Bounds.w = GetScaledCharacterSize().x;
 	m_CollisionComponent->GetCollision()->Bounds.h = GetScaledCharacterSize().y;
 
-	m_Lives = 1;
-	m_IsDead = false;
 }
 SEVector2 SECharacter::GetScaledCharacterSize() const
 {
