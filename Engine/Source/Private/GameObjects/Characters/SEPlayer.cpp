@@ -38,8 +38,6 @@ SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
 	AnimParams.RowCount = 3;
 	AnimParams.Row = 0;
 
-	// if()
-
 	// animation for Player ship foward / back & left / right
 	m_MainshipSprite->AddAnimation(
 		"EngineContent/Images/SpriteSheets/MainShip/spritesheet_player_9f.png",
@@ -49,7 +47,7 @@ SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
 
 	SetScale(2.0f);
 
-	m_Lives = 10;
+	m_Lives = 15;
 
 	m_FireRate = 0.2f;
 	m_ShootTimer = m_FireRate;

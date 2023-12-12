@@ -8,6 +8,7 @@
 
 #include "GameStates/SEPlayState.h"
 #include"GameStates/SEMainMenuState.h"
+#include"GameStates/SESplashScreen.h"
 
 
 Game* Game::GetGameInstance()
@@ -65,7 +66,7 @@ void Game::RestartGame()
 {
 	m_GameScore = 0;
 	//Create a new state and this will automatically run the beginplay
-	m_GameStateMachine->SetNewState<SEMainMenuState>();
+	m_GameStateMachine->SetNewState<SESplashScreen>();
 }
 
 Game::Game()

@@ -15,6 +15,7 @@ SEEnemy::SEEnemy(SEString DefaultName, Window* AssignedWindow)
 
 	m_CharacterSize = SEVector2(64.0f);
 	m_EngineEffects = AddComponent<SESpriteComponent>();
+	m_WeaponsFireEffects = AddComponent<SESpriteComponent>();
 
 	// add ship sprite to the main sprite component
 	GetSpriteComponent()->AddSingleSprite("EngineContent/Images/SpriteSheets/Enemies/Base/Kla'ed - Fighter - Base.png");
@@ -25,6 +26,13 @@ SEEnemy::SEEnemy(SEString DefaultName, Window* AssignedWindow)
 	
 	m_EngineEffects->AddAnimation(
 		"EngineContent/Images/SpriteSheets/Enemies/EngineEffects/Kla'ed - Fighter - Engine-10f.png",
+		AnimParams);
+
+	AnimParams.EndFrame = 5;
+	AnimParams.FrameCount = 6;
+
+	m_WeaponsFireEffects->AddAnimation(
+		"EngineContent/Images/SpriteSheets/Enemies/Weapons/Kla'ed - Fighter - Weapons - 6f.png",
 		AnimParams);
 
 	// moves down the screen from the get go

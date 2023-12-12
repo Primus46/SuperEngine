@@ -1,5 +1,6 @@
 #include "CoreMinimal.h"
 #include "GameStates/SEMainMenuState.h"
+
 #include "GameObjects/SETextObject.h"
 #include "Window/Window.h"
 #include "SEInput.h"

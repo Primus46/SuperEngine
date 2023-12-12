@@ -1,17 +1,16 @@
 #pragma once
 #include "GameStates/SEGameState.h"
 
-class SEMainMenuState :
+class SESplashScreen :
     public SEGameState
 {
 public:
-	SEMainMenuState(Window* AssignedWindow)
+	SESplashScreen(Window* AssignedWindow)
 		: SEGameState(AssignedWindow) {}
 
 protected:
 	virtual void OnBeginPlay() override;
 
 	virtual void OnProcessInput(SEInput* GameInput) override;
-
 };
 

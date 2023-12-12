@@ -1,59 +1,62 @@
 #include "CoreMinimal.h"
-#include "GameObjects/Characters/SEEnemyShooter.h"
+#include "GameObjects/Characters/SEEnemyBattlecruiser.h"
 
 #include "GameObjects/Components/SESpriteComponent.h"
 #include "GameObjects/Components/SECollisionComponent.h"
-#include "GameObjects/Projectiles/SEEnemyProjectileSmall.h"
+#include "GameObjects/Projectiles/SEEnemyProjectileMedium.h"
 #include "Game.h"
 #include "GameObjects/Components/SEMovementComponent.h"
 
-SEEnemyShooter::SEEnemyShooter(SEString DefaultName, Window* AssignedWindow)
+
+SEEnemyBattlecruiser::SEEnemyBattlecruiser(SEString DefaultName, Window* AssignedWindow)
 	:SEEnemy(DefaultName, AssignedWindow)
 {
-	m_CharacterSize = SEVector2(88.0f);
+	m_CharacterSize = SEVector2(180.0f);
 	m_EngineEffects = AddComponent<SESpriteComponent>();
 	m_WeaponsFireEffects = AddComponent<SESpriteComponent>();
 
+
 	GetSpriteComponent()->ClearSprites();
 
-	GetSpriteComponent()->AddSingleSprite("EngineContent/Images/SpriteSheets/Enemies/Base/Kla'ed - Frigate - Base.png");
+	GetSpriteComponent()->AddSingleSprite("EngineContent/Images/SpriteSheets/Enemies/Base/Kla'ed - Battlecruiser - Base.png");
 
 	SEAnimParams AnimParams;
 	AnimParams.EndFrame = 11;
 	AnimParams.FrameCount = 12;
 
 	m_EngineEffects->AddAnimation(
-		"EngineContent/Images/SpriteSheets/Enemies/EngineEffects/Kla'ed - Frigate - Engine - 12f.png",
+		"EngineContent/Images/SpriteSheets/Enemies/EngineEffects/Kla'ed - Battlecruiser - Engine - 12f.png",
 		AnimParams);
 
-	AnimParams.EndFrame = 5;
-	AnimParams.FrameCount = 6;
+	AnimParams.EndFrame = 29;
+	AnimParams.FrameCount = 30;
 
 	m_WeaponsFireEffects->AddAnimation(
-		"EngineContent/Images/SpriteSheets/Enemies/Weapons/Kla'ed - Frigate - Weapons - 6f.png",
+		"EngineContent/Images/SpriteSheets/Enemies/Weapons/Kla'ed - Battlecruiser - Weapons - 30f.png",
 		AnimParams);
-	
 
-	m_Value = 20;
-	m_Lives = 3;
+	m_Value = 40;
+	m_Lives = 5;
 
 	m_ShootTimer = 0.0f;
 	m_FireRate = 2.0f;
 
-	GetMovementComponent()->m_MaxVelocity = 75.0f;
+	GetMovementComponent()->m_MaxVelocity = 50.0f;
+
 }
 
-void SEEnemyShooter::BeginPlay()
+void SEEnemyBattlecruiser::BeginPlay()
 {
 	SECharacter::BeginPlay();
 	GetCollisionComponent()->GetCollision()->Bounds.w = GetScaledCharacterSize().x * 0.5;
 	GetCollisionComponent()->GetCollision()->Bounds.h = GetScaledCharacterSize().y * 0.5;
 
-	GetCollisionComponent()->BoundsOffset.x = 20.0f;
-	GetCollisionComponent()->BoundsOffset.y = 20.0f;
+	GetCollisionComponent()->BoundsOffset.x = 38.0f;
+	GetCollisionComponent()->BoundsOffset.y = 48.0f;
+	// GetCollisionComponent()->GetCollision()->Debug = true;
 }
 
-void SEEnemyShooter::Update(float DeltaTime)
+void SEEnemyBattlecruiser::Update(float DeltaTime)
 {
 	SEEnemy::Update(DeltaTime);
 	TryShoot();
@@ -64,16 +67,16 @@ void SEEnemyShooter::Update(float DeltaTime)
 	}
 }
 
-void SEEnemyShooter::TryShoot()
+void SEEnemyBattlecruiser::TryShoot()
 {
 	if (m_ShootTimer >= m_FireRate) {
 		m_ShootTimer = 0.0f;
 
-		SEEnemyProjectileSmall* Proj = Game::GetGameInstance()->AddGameObject<SEEnemyProjectileSmall>();
+		SEEnemyProjectileMedium* Proj = Game::GetGameInstance()->AddGameObject<SEEnemyProjectileMedium>();
 
 		SEVector2 SpawnPos = (GetTransform()->Position + (GetScaledCharacterSize() * 0.5f));
-		SpawnPos.x -= 27.0f;
-		SpawnPos.y += 20.0f;
+		SpawnPos.x -= 60.0f;
+		SpawnPos.y += 40.0f;
 		Proj->SetPosition(SpawnPos);
 	}
 }

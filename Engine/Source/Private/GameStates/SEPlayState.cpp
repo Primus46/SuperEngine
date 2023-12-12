@@ -3,6 +3,8 @@
 
 #include "GameObjects/Characters/SEEnemy.h"
 #include "GameObjects/Characters/SEEnemyShooter.h"
+#include "GameObjects/Characters/SEEnemyBattlecruiser.h"
+#include "GameObjects/Characters/SEEnemyDreadnought.h"
 
 #include "GameObjects/Characters/SEPlayer.h"
 #include "Window/Window.h"
@@ -98,12 +100,19 @@ void SEPlayState::OnUpdate(float DeltaTime)
 
 void SEPlayState::SpawnEnemy()
 {
-	SEEnemy* Enemy;
+	static float SwitchTimer = 0.0f;
 
+	SEEnemy* Enemy;
 	// change number depending on th eamount of enemies
 	// selects with enemy type is spawned
-	if (rand() % 2 == 0) {
+	if (rand() % 3 == 0) {
 		Enemy = AddGameObject<SEEnemyShooter>();
+	}
+	else if (rand() % 3 == 1) {
+		Enemy = AddGameObject<SEEnemyBattlecruiser>();
+	}
+	else if (rand() % 3 == 2) {
+		Enemy = AddGameObject<SEEnemyDreadnought>();
 	}
 	else {
 		Enemy = AddGameObject<SEEnemy>();

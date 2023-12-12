@@ -26,6 +26,9 @@ public:
 protected:
 	// sprite component for engine effects animation
 	TSharedPtr<SESpriteComponent> m_EngineEffects;
+	
+	// sprite component for weapon fire effects animation
+	TSharedPtr<SESpriteComponent> m_WeaponsFireEffects;
 
 	// direction the enemy will move in
 	SEVector2 m_MovementDir;
