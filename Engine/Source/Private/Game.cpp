@@ -3,9 +3,9 @@
 #include "Window/Window.h"
 #include "SEInput.h"
 #include "SDL2/SDL_ttf.h"
+#include "SDL2/SDL_mixer.h"
+#include "SEAudioPlayer.h"
 
-#include "GameStates/SEGameStateMachine.h"
-#include "GameStates/SEGameState.h"
 #include "GameStates/SEPlayState.h"
 #include"GameStates/SEMainMenuState.h"
 
@@ -63,11 +63,9 @@ void Game::AddScore(int Amount)
 
 void Game::RestartGame()
 {
-	/*
 	m_GameScore = 0;
 	//Create a new state and this will automatically run the beginplay
 	m_GameStateMachine->SetNewState<SEMainMenuState>();
-	*/
 }
 
 Game::Game()
@@ -79,6 +77,7 @@ Game::Game()
 	m_GameInput = nullptr;
 	m_GameStateMachine = nullptr;
 	m_GameScore = 0;
+	m_Audio = nullptr;
 }
 
 Game::~Game()
@@ -97,6 +96,11 @@ bool Game::Initialise()
 		return false;
 	}
 
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096) == -1) {
+		SELog("SDL Mixer failed to initialise: " + SEString(SDL_GetError()));
+		return false;
+	}
+
 	return true;
 }
 
@@ -110,19 +114,13 @@ void Game::Start()
 	}
 	m_GameInput = new SEInput();
 
+	m_Audio = new SEAudioPlayer();
+
 	// create the game state machine and add the assigned window
 	m_GameStateMachine = new SEGameStateMachine(m_Window);
-	//Create a new state and this will automatically run the beginplay
-	m_GameStateMachine->SetNewState<SEMainMenuState>();
+	RestartGame();
 
 	m_GameStateMachine->BeginPlay();
-
-	/*
-	* Replace
-	m_GameStateMachine->SetNewState<SEMainMenuState>();
-	*With
-	* RestartGame();
-	*/
 }
 
 void Game::LoopStart()
@@ -198,6 +196,10 @@ void Game::CleanupGame()
 		m_Window->Destroy();
 		delete m_Window;
 	}
+
+	// deload mixer stuff
+	Mix_CloseAudio();
+
 	// deload the TTF stuff
 	TTF_Quit();
 

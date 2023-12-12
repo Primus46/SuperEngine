@@ -80,3 +80,8 @@ void SEGameObject::SetRotation(float Rotation)
 {
 	m_Transform->Rotation = Rotation;
 }
+
+SEAudioPlayer* SEGameObject::GetAudio() const
+{
+	return Game::GetGameInstance()->GetAudio() ;
+}

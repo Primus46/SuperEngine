@@ -1,9 +1,14 @@
 #pragma once
 
+#include "GameStates/SEGameState.h"
+#include "GameStates/SEGameStateMachine.h"
+
 class Window;
 class SEInput;
 class SECollisionEngine;
 class SEGameStateMachine;
+class SEAudioPlayer;
+
 
 class Game {
 public:
@@ -38,6 +43,15 @@ public:
 	//Restart the game back to the main menu
 	void RestartGame();
 
+	// get the audio player for the game
+	SEAudioPlayer* GetAudio() const { return m_Audio; }
+
+	// add a game object to the game
+	template<class G, typename std::enable_if<std::is_base_of<SEGameObject, G>::value>::type* = nullptr>
+	G* AddGameObject(SEString ObjectName = "GameObject") {
+		return m_GameStateMachine->GetActiveGameState()->AddGameObject<G>(ObjectName);
+	}
+	 
 private:
 	Game();
 	~Game();
@@ -80,5 +94,8 @@ private:
 	
 	// store the score for the game
 	int m_GameScore;
+
+	// store the audio player for the game
+	SEAudioPlayer* m_Audio;
 
 };

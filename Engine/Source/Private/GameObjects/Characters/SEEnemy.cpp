@@ -5,6 +5,8 @@
 #include "GameObjects/Components/SECollisionComponent.h"
 #include "Window/Window.h"
 #include "Game.h"
+#include "SEAudioPlayer.h"
+
 
 SEEnemy::SEEnemy(SEString DefaultName, Window* AssignedWindow) 
 	: SECharacter(DefaultName, AssignedWindow)
@@ -35,6 +37,8 @@ SEEnemy::SEEnemy(SEString DefaultName, Window* AssignedWindow)
 	SetRotation(180.0f);
 	SetScale(2.0f);
 
+	m_DestroySFX[0] = GetAudio()->LoadSFX("EngineContent/Audio/Destroy_small_SFX_1.wav");
+	m_DestroySFX[1] = GetAudio()->LoadSFX("EngineContent/Audio/Destroy_small_SFX_2.wav");
 }
 
 void SEEnemy::Update(float DeltaTime)
@@ -58,4 +62,13 @@ void SEEnemy::BeginPlay()
 	GetCollisionComponent()->GetCollision()->Bounds.h = GetScaledCharacterSize().y * 0.5;
 	GetCollisionComponent()->BoundsOffset.x = 32.0f;
 	GetCollisionComponent()->BoundsOffset.y = 22.0f;
+}
+
+void SEEnemy::DestroyWithEffects()
+{
+	int Rand = rand() % 2;
+
+	GetAudio()->PlaySFX(m_DestroySFX[Rand], 100);
+
+	Destroy();
 }

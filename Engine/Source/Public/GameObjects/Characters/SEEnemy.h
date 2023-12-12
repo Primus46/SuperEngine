@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObjects/Characters/SECharacter.h"
 
+struct Mix_Chunk;
+
 class SEEnemy :
 	public SECharacter
 {
@@ -11,6 +13,8 @@ public:
 
 	void BeginPlay() override;
 
+	void DestroyWithEffects();
+
 private:
 	// sprite component for engine effects animation
 	TSharedPtr<SESpriteComponent> m_EngineEffects;
@@ -20,4 +24,6 @@ private:
 
 	//the acceleration power of the enemies
 	float m_EnemyAcceleration;
+
+	Mix_Chunk* m_DestroySFX[2] = { nullptr };
 };

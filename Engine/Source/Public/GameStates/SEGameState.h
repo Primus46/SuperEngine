@@ -4,7 +4,7 @@ class SEInput;
 class Window;
 class SECollisionEngine;
 class SEGameObject;
-
+class SEAudioPlayer;
 
 class SEGameState
 {
@@ -39,16 +39,8 @@ public:
 	// mark the game state for destruction
 	void destroy();
 
-protected:
-	// Runs whenever the game state starts
-	// Makes sure that the begin play of game objects is run after this
-	virtual void OnBeginPlay() {}
-	
-	// Listens out for the input events
-	virtual void OnProcessInput(SEInput* GameInput) {}
-
-	// Runs logic at before rendering and after input
-	virtual void OnUpdate(float DeltaTime) {}
+	// get game audio
+	SEAudioPlayer* GetAudio() const;
 
 	// add a game object to the game
 	template<class G, typename std::enable_if<std::is_base_of<SEGameObject, G>::value>::type* = nullptr>
@@ -65,6 +57,19 @@ protected:
 		return NewGameObject;
 	}
 
+	// runs when the game state gets swwitched out or destroyed
+	virtual void EndPlay() {}
+
+protected:
+	// Runs whenever the game state starts
+	// Makes sure that the begin play of game objects is run after this
+	virtual void OnBeginPlay() {}
+	
+	// Listens out for the input events
+	virtual void OnProcessInput(SEInput* GameInput) {}
+
+	// Runs logic at before rendering and after input
+	virtual void OnUpdate(float DeltaTime) {}
 
 private:
 	// Window assigned to the game state

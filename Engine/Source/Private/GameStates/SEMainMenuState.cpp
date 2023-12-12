@@ -10,7 +10,7 @@
 void SEMainMenuState::OnBeginPlay()
 {
 	SETextObject* Title = AddGameObject<SETextObject>();
-	Title->LoadFont("EngineContent/images/Fonts/Pixelify/PixelifySans-Bold.ttf");
+	Title->LoadFont("EngineContent/Fonts/Pixelify/PixelifySans-Bold.ttf");
 	Title->SetFontSize(60);
 	Title->SetText("Press SPAC BAR to start Game.");
 

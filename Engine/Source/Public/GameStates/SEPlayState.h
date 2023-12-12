@@ -24,6 +24,10 @@ protected:
 	// update the score if it's changed
 	void UpdateScore();
 
+	void UpdatePlayerLives();
+
+	virtual void EndPlay() override;
+
 private:
 	// store the player game object if we need it
 	SEPlayer* m_Player;
@@ -37,7 +41,12 @@ private:
 	// store the text object for the score
 	SETextObject* m_ScoreText;
 
+	// store the text object for the player lives
+	SETextObject* m_PlayerLivesText;
+
 	// this exists to test if the score has changed and needs updating
 	int m_StateScore;
+
+	int m_StatePlayerLives;
 };
 

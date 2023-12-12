@@ -7,6 +7,7 @@
 #include "SEInput.h"
 #include "Window/Window.h"
 #include "Game.h"
+#include "GameObjects/Characters/SEEnemy.h"
 
 SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
 	: SECharacter(DefaultName, AssignedWindow)
@@ -33,12 +34,11 @@ SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
 	AnimParams.FrameCount = 3;
 	AnimParams.EndFrame = 2;
 	AnimParams.RowCount = 3;
+	AnimParams.Row = 0;
 
+	// if()
 
-	// animation for Player ship left & right
-
-
-	// animation for Player ship foward & back
+	// animation for Player ship foward / back & left / right
 	m_MainshipSprite->AddAnimation(
 		"EngineContent/Images/SpriteSheets/MainShip/spritesheet_player_9f.png",
 		AnimParams);
@@ -46,6 +46,8 @@ SEPlayer::SEPlayer(SEString DefaultName, Window* AssignedWindow)
 
 
 	SetScale(2.0f);
+
+	m_Lives = 3;
 }
 
 void SEPlayer::BeginPlay()
@@ -90,6 +92,8 @@ void SEPlayer::Update(float DeltaTime)
 
 void SEPlayer::ProcessInput(SEInput* GameInput)
 {
+	static float SwitchTimer = 0.0f;
+
 	SECharacter::ProcessInput(GameInput);
 	// reset input direction to update the correct direction
 	// this will also make sure we have no input direction when not pressing anything
@@ -97,6 +101,7 @@ void SEPlayer::ProcessInput(SEInput* GameInput)
 
 	// move up when pressing W
 	if (GameInput->IsKeyDown(SDL_SCANCODE_W)) {
+
 		m_MovementDir += SEVector2(0.0f, -1.0f);
 	}
 	// move down when pressing S
@@ -111,6 +116,10 @@ void SEPlayer::ProcessInput(SEInput* GameInput)
 	if (GameInput->IsKeyDown(SDL_SCANCODE_A)) {
 		m_MovementDir += SEVector2(-1.0f, 0.0f);
 	}
+
+	if (SwitchTimer > 0.0f) {
+		SwitchTimer -= Game::GetGameInstance()->GetDeltaTimeF();
+	}
 }
 
 void SEPlayer::OnBeginOverlap(SECollision* Col)
@@ -118,8 +127,15 @@ void SEPlayer::OnBeginOverlap(SECollision* Col)
 	SECharacter::OnBeginOverlap(Col);
 
 	if (Col->Type == OT_ENEMY) {
-		Col->GetOwner()->Destroy();
+		if (SEEnemy* Enemy = dynamic_cast<SEEnemy*>(Col->GetOwner())) {
+			Enemy->DestroyWithEffects();
+		}
+		else {
+			Col->GetOwner()->Destroy();
+		}
+
 		Game::GetGameInstance()->AddScore(-100);
+		ApplyDamage();
 	}
 }
 

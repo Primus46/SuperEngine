@@ -8,6 +8,7 @@ class SEComponent;
 class SETransformComponent;
 struct SEVector2;
 class SECollision;
+class SEAudioPlayer;
 
 class SEGameObject {
 public:
@@ -65,6 +66,8 @@ protected:
 
 		return NewComponent;
 	}
+	// get the audio player for the game
+	SEAudioPlayer* GetAudio() const;
 
 private:
 	//Objects Unique Identifier

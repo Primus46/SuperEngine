@@ -26,9 +26,22 @@ public:
 	// get teh size of the character scaled
 	SEVector2 GetScaledCharacterSize() const;
 
+	// get the lives left of the character
+	int GetLives() const { return m_Lives; }
+
+	// apply damafe to the lives of the character
+	// will run OnDeath once when the character lives fall on or below 0
+	void ApplyDamage(int Damage = 1);
+
+	// runs if the character lives fall on or below o
+	virtual void OnDeath();
+
 protected:
 	// size of the character
 	SEVector2 m_CharacterSize;
+
+	// Health
+	int m_Lives;
 
 private:
 	// the main sprite component for the character
@@ -39,4 +52,7 @@ private:
 
 	// the main collision component for the game objects
 	TSharedPtr<SECollisionComponent> m_CollisionComponent;
+
+	// checks to see if the character has died
+	bool m_IsDead;
 };

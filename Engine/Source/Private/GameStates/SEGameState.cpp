@@ -3,7 +3,7 @@
 
 #include "Collisions/SECollisionEngine.h"
 #include "GameObjects/SEGameObject.h"
-
+#include "Game.h"
 
 SEGameState::SEGameState(Window* AssignedWindow)
 {
@@ -101,7 +101,14 @@ void SEGameState::CollectGarbage()
 
 void SEGameState::destroy()
 {
+	EndPlay();
+
 	m_ShouldDestroy = true;
+}
+
+SEAudioPlayer* SEGameState::GetAudio() const
+{
+	return Game::GetGameInstance()->GetAudio();
 }
 
 

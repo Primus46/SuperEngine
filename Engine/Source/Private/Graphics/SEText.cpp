@@ -21,8 +21,6 @@ bool SEText::InportTexture(SDL_Renderer* Renderer, SEString PathToFile)
 {
 	DestroyFont();
 
-	SELog("Attempting to leod font from path: " + PathToFile);
-
 	m_Font = TTF_OpenFont(PathToFile.c_str(), m_FontSize);
 
 	if (m_Font == nullptr) {

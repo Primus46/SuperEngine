@@ -8,7 +8,8 @@
 #include "Game.h"
 #include "GameStates/SEGameStateMachine.h"
 #include "GameObjects/SETextObject.h"
-
+#include "SEAudioPlayer.h"
+#include "GameStates/SEMainMenuState.h"
 
 SEPlayState::SEPlayState(Window* AssignedWindow) 
 	: SEGameState(AssignedWindow)
@@ -18,6 +19,7 @@ SEPlayState::SEPlayState(Window* AssignedWindow)
 	m_SpawnFrequency = 5.0f;
 	m_ScoreText = nullptr;
 	m_StateScore = -1;
+	m_StatePlayerLives = -1;
 }
 
 void SEPlayState::OnBeginPlay()
@@ -37,9 +39,17 @@ void SEPlayState::OnBeginPlay()
 	Game::GetGameInstance()->SetScore(0);
 
 	m_ScoreText = AddGameObject<SETextObject>();
-	m_ScoreText->LoadFont("EngineContent/images/Fonts/Pixelify/PixelifySans-Regular.ttf");
+	m_ScoreText->LoadFont("EngineContent/Fonts/Pixelify/PixelifySans-Regular.ttf");
 	m_ScoreText->SetFontSize(48);
 	UpdateScore();
+
+	m_PlayerLivesText = AddGameObject<SETextObject>();
+	m_PlayerLivesText->LoadFont("EngineContent/Fonts/Pixelify/PixelifySans-Regular.ttf");
+	m_PlayerLivesText->SetFontSize(36);
+
+
+	Mix_Music* Music = GetAudio()->LoadMusic("EngineContent/Audio/321007__littlerobotsoundfactory__loop_nothing_can_stop_progress_01.wav");
+	GetAudio()->PlayMusic(Music, 12);
 
 }
 
@@ -62,7 +72,7 @@ void SEPlayState::OnUpdate(float DeltaTime)
 {	
 
 	UpdateScore();
-
+	UpdatePlayerLives();
 	// increment the timer every frame
 	m_SpawnTimer += DeltaTime;
 
@@ -75,6 +85,10 @@ void SEPlayState::OnUpdate(float DeltaTime)
 		m_SpawnFrequency -= 0.25f;
 		// make sure the frequency can't go below 0.5s
 		m_SpawnFrequency = std::max(0.5f, m_SpawnFrequency);
+	}
+
+	if (m_Player->GetLives() <= 0) {
+		Game::GetGameInstance()->GetGameStateMachine()->SetNewState<SEMainMenuState>();
 	}
 }
 
@@ -109,4 +123,25 @@ void SEPlayState::UpdateScore()
 		});
 
 	m_StateScore = GameScore;
+}
+
+void SEPlayState::UpdatePlayerLives()
+{
+	if (m_Player == nullptr) {
+		return;
+	}
+
+	if (m_StatePlayerLives == m_Player->GetLives()) {
+		return;
+	}
+
+	m_PlayerLivesText->SetText(SEString("Lives: ") + std::to_string(m_Player->GetLives()));
+	m_PlayerLivesText->SetPosition({ 10.0f, 10.0f });
+
+	m_StatePlayerLives = m_Player->GetLives();
+}
+
+void SEPlayState::EndPlay()
+{
+	GetAudio()->PauseMusic();
 }

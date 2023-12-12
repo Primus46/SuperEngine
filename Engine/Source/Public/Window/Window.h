@@ -1,9 +1,9 @@
 #pragma once
 
 class SETexture;
-
-class SEWindowMenu;
 class SEText;
+class SEWindowMenu;
+
 
 class Window {
 public:
@@ -53,8 +53,6 @@ private:
 	TSharedArray<SETexture> m_TextureStack;
 	// window text stack
 	TSharedArray<SEText> m_TextStack;
-
-
 	// window menu for the window
 	SEWindowMenu* m_WindowMenu;
 };

@@ -23,9 +23,32 @@ void SECharacter::BeginPlay()
 
 	m_CollisionComponent->GetCollision()->Bounds.w = GetScaledCharacterSize().x;
 	m_CollisionComponent->GetCollision()->Bounds.h = GetScaledCharacterSize().y;
+
+	m_Lives = 1;
+	m_IsDead = false;
 }
 SEVector2 SECharacter::GetScaledCharacterSize() const
 {
 	return GetTransform()->Scale * m_CharacterSize;
+}
+
+void SECharacter::ApplyDamage(int Damage)
+{
+	if (m_IsDead) {
+		return;
+	}
+
+	m_Lives -= Damage;
+
+	if (m_Lives <= 0) {
+		m_Lives = 0;
+		OnDeath();
+	}
+}
+
+void SECharacter::OnDeath()
+{
+	m_IsDead = true;
+	SELog("Is Dead");
 }
 
