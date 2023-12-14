@@ -53,7 +53,7 @@ void SEEnemyDreadnought::BeginPlay()
 
 	GetCollisionComponent()->BoundsOffset.x = 38.0f;
 	GetCollisionComponent()->BoundsOffset.y = 48.0f;
-	GetCollisionComponent()->GetCollision()->Debug = true;
+	// GetCollisionComponent()->GetCollision()->Debug = true;
 }
 
 void SEEnemyDreadnought::Update(float DeltaTime)

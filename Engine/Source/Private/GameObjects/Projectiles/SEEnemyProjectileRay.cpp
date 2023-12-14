@@ -29,7 +29,7 @@ SEEnemyProjectileRay::SEEnemyProjectileRay(SEString DefaultName, Window* Assigne
 
 	m_MoveDirection = SEVector2(0.0f, 1.0f);
 
-	GetMainCollision()->GetCollision()->Debug = true;
+	// GetMainCollision()->GetCollision()->Debug = true;
 
 	GetTransform()->Scale *= 2.0f;
 
